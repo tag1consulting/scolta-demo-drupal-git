@@ -44,8 +44,12 @@ a:visited {
   color: var(--color-link--visited);
 }
 
-/* === Header: dark background + orange bottom border === */
-.site-header {
+/* === Header: dark background + orange bottom border ===
+ * Olivero's .site-header__inner overrides .site-header with var(--color--white),
+ * so we must explicitly darken the inner container as well.
+ */
+.site-header,
+.site-header__inner {
   background: #2d2d2d;
   border-bottom: 4px solid var(--color-accent);
 }
