@@ -3,3 +3,5 @@ global:
   css:
     theme:
       css/gitmastery.css: {}
+  js:
+    js/lang-switcher.js: { minified: false }

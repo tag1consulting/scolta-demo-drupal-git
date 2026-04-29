@@ -96,46 +96,96 @@ a:visited {
   color: var(--color-accent);
 }
 
-/* === Language switcher === */
+/* === Language switcher — dropdown ===
+ * Drupal renders: div.language-switcher-language-url > div.block__content > ul.links > li
+ * The block div is the dropdown anchor; ul.links becomes the panel when open.
+ */
 .language-switcher-language-url {
-  display: flex;
-  gap: 0.35rem;
-  align-items: center;
-  flex-wrap: wrap;
+  position: relative;
 }
 
-.language-switcher-language-url li {
+.language-switcher-language-url .links {
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.language-switcher-language-url li.is-active a,
-.language-switcher-language-url li.is-active span {
-  display: inline-block;
-  background: var(--color-accent);
+/* Hide non-active items by default */
+.language-switcher-language-url .links li:not(.is-active) {
+  display: none;
+}
+
+/* Active language — the clickable trigger */
+.language-switcher-language-url .links li.is-active > a {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
   color: #fff;
-  border-radius: 3px;
-  padding: 0.15em 0.5em;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.language-switcher-language-url li a {
-  display: inline-block;
-  color: rgba(255, 255, 255, 0.65);
-  padding: 0.15em 0.5em;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  border-radius: 3px;
-  transition: background 0.15s, color 0.15s;
+  letter-spacing: 0.04em;
+  padding: 0.3em 0.5em;
   text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  border-radius: 3px;
 }
 
-.language-switcher-language-url li a:hover {
-  background: rgba(255, 255, 255, 0.15);
+.language-switcher-language-url .links li.is-active > a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Down-arrow chevron */
+.language-switcher-language-url .links li.is-active > a::after {
+  content: '▾';
+  font-size: 0.9em;
+  opacity: 0.6;
+  transition: transform 0.15s;
+}
+
+.language-switcher-language-url.is-open .links li.is-active > a::after {
+  transform: rotate(180deg);
+}
+
+/* Dropdown panel */
+.language-switcher-language-url.is-open .links {
+  position: absolute;
+  top: calc(100% + 0.3rem);
+  right: 0;
+  background: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  min-width: 9rem;
+  z-index: 500;
+  padding: 0.25rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Show non-active items when open */
+.language-switcher-language-url.is-open .links li:not(.is-active) {
+  display: block;
+}
+
+/* Divider below trigger when open */
+.language-switcher-language-url.is-open .links li.is-active {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 0.2rem;
+}
+
+/* Non-active links */
+.language-switcher-language-url .links li:not(.is-active) > a {
+  display: block;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.4em 0.75em;
+  text-decoration: none;
+  transition: background 0.1s, color 0.1s;
+  white-space: nowrap;
+}
+
+.language-switcher-language-url .links li:not(.is-active) > a:hover {
+  background: rgba(255, 255, 255, 0.08);
   color: #fff;
 }
 
@@ -408,7 +458,8 @@ input[type="submit"]:hover {
 
 /* === Mobile adjustments === */
 @media (max-width: 767px) {
-  .language-switcher-language-url {
-    gap: 0.25rem;
+  .language-switcher-language-url.is-open .links {
+    right: auto;
+    left: 0;
   }
 }
