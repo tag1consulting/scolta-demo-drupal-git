@@ -8,6 +8,7 @@ A comprehensive Git documentation site built on Drupal 11, showcasing [Scolta](h
 
 - [DDEV](https://ddev.com/get-started/) 1.23+
 - Git
+- An **Anthropic API key** — needed for query expansion and AI overview
 - The **scolta packages** cloned locally at `~/devel/tag1/scolta/packages/`
 
   The DDEV container mounts that path as `/mnt/packages` and `composer.json` references it as a local path repository. Without it, `composer install` will fail. Clone the scolta monorepo first:
@@ -23,6 +24,18 @@ A comprehensive Git documentation site built on Drupal 11, showcasing [Scolta](h
 ```bash
 git clone <repository-url> gitmastery
 cd gitmastery
+```
+
+Create `.ddev/config.local.yaml` with your Anthropic API key (this file is gitignored by DDEV):
+
+```yaml
+web_environment:
+  - SCOLTA_API_KEY=sk-ant-api03-your-key-here
+```
+
+Then start the site:
+
+```bash
 ddev start
 ```
 
