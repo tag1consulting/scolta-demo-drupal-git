@@ -1,6 +1,6 @@
 uuid: dfe07224-d399-452e-b900-de1e3abbcead
 langcode: en
-status: false
+status: true
 dependencies:
   module:
     - scolta
@@ -8,7 +8,7 @@ dependencies:
     - gitmastery_theme
 id: gitmastery_theme_scolta_search
 theme: gitmastery_theme
-region: header
+region: content_above
 weight: -20
 provider: null
 plugin: scolta_search
