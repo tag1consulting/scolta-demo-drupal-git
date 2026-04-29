@@ -1,0 +1,21 @@
+uuid: e30ebee6-1323-4c30-85b2-3a88e9fada87
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_section
+    - node.type.tip
+id: node.tip.field_section
+field_name: field_section
+entity_type: node
+bundle: tip
+label: Section
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings: {  }
+field_type: entity_reference

@@ -1,0 +1,21 @@
+uuid: 2109828f-6ca2-4e0d-b360-876fbe90f902
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_section
+    - node.type.tutorial
+id: node.tutorial.field_section
+field_name: field_section
+entity_type: node
+bundle: tutorial
+label: Section
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings: {  }
+field_type: entity_reference

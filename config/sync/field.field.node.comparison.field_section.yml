@@ -1,0 +1,21 @@
+uuid: 5463c1f1-73fd-409e-907d-1d85d9ffa95b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_section
+    - node.type.comparison
+id: node.comparison.field_section
+field_name: field_section
+entity_type: node
+bundle: comparison
+label: Section
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings: {  }
+field_type: entity_reference
