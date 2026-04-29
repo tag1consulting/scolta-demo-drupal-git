@@ -100,59 +100,68 @@ a:visited {
   color: var(--color-accent);
 }
 
+/* Override Olivero's .primary-nav__menu-link which sets near-black text color */
+.site-header__inner .primary-nav__menu-link,
+.site-header__inner .primary-nav__menu-link--has-children {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.site-header__inner .primary-nav__menu-link:hover,
+.site-header__inner .primary-nav__menu-link--has-children:hover {
+  color: var(--color-accent);
+}
+
+.site-header__inner .primary-nav__menu-item--active-trail > .primary-nav__menu-link,
+.site-header__inner .primary-nav__menu-item--active > .primary-nav__menu-link {
+  color: var(--color-accent);
+}
+
 /* === Language switcher — dropdown ===
  * Drupal renders: div.language-switcher-language-url > div.block__content > ul.links > li
- * The block div is the dropdown anchor; ul.links becomes the panel when open.
+ * JS inserts a .lang-trigger button before ul.links so the trigger stays in-flow and
+ * ul.links is always position:absolute — no layout shift when the panel opens.
  */
 .language-switcher-language-url {
   position: relative;
 }
 
-.language-switcher-language-url .links {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-/* Hide non-active items by default */
-.language-switcher-language-url .links li:not(.is-active) {
-  display: none;
-}
-
-/* Active language — the clickable trigger */
-.language-switcher-language-url .links li.is-active > a {
+/* In-flow trigger button created by lang-switcher.js */
+.lang-trigger {
   display: flex;
   align-items: center;
   gap: 0.35em;
+  background: none;
+  border: none;
   color: #fff;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   padding: 0.3em 0.5em;
-  text-decoration: none;
   cursor: pointer;
   white-space: nowrap;
   border-radius: 3px;
+  font-family: inherit;
+  line-height: 1;
 }
 
-.language-switcher-language-url .links li.is-active > a:hover {
+.lang-trigger:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
-/* Down-arrow chevron */
-.language-switcher-language-url .links li.is-active > a::after {
+.lang-trigger::after {
   content: '▾';
   font-size: 0.9em;
   opacity: 0.6;
   transition: transform 0.15s;
 }
 
-.language-switcher-language-url.is-open .links li.is-active > a::after {
+.language-switcher-language-url.is-open .lang-trigger::after {
   transform: rotate(180deg);
 }
 
-/* Dropdown panel */
-.language-switcher-language-url.is-open .links {
+/* Dropdown panel — always absolute, shown/hidden via is-open */
+.language-switcher-language-url .links {
+  display: none;
   position: absolute;
   top: calc(100% + 0.3rem);
   right: 0;
@@ -163,21 +172,16 @@ a:visited {
   z-index: 500;
   padding: 0.25rem 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  list-style: none;
+  margin: 0;
 }
 
-/* Show non-active items when open */
-.language-switcher-language-url.is-open .links li:not(.is-active) {
+.language-switcher-language-url.is-open .links {
   display: block;
 }
 
-/* Divider below trigger when open */
-.language-switcher-language-url.is-open .links li.is-active {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: 0.2rem;
-}
-
-/* Non-active links */
-.language-switcher-language-url .links li:not(.is-active) > a {
+/* All links in the panel */
+.language-switcher-language-url .links li > a {
   display: block;
   color: rgba(255, 255, 255, 0.75);
   font-size: 0.8rem;
@@ -188,7 +192,7 @@ a:visited {
   white-space: nowrap;
 }
 
-.language-switcher-language-url .links li:not(.is-active) > a:hover {
+.language-switcher-language-url .links li > a:hover {
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
 }
@@ -462,7 +466,7 @@ input[type="submit"]:hover {
 
 /* === Mobile adjustments === */
 @media (max-width: 767px) {
-  .language-switcher-language-url.is-open .links {
+  .language-switcher-language-url .links {
     right: auto;
     left: 0;
   }
