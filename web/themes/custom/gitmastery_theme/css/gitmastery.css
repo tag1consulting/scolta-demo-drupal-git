@@ -1,70 +1,101 @@
-/* GitMastery Theme — Color and style overrides for Olivero sub-theme.
- *
- * Works WITH Olivero's layout (sidebar-grid, container, etc.) rather than
- * replacing it. Only overrides colors, fonts, code blocks, and accent styles.
+/* GitMastery — Documentation Theme
+ * Olivero sub-theme. Fonts loaded as external library (Inter + Fira Code).
  */
 
-/* === CSS custom properties (override Olivero's) === */
+/* ================================================================
+   VARIABLES
+   ================================================================ */
 :root {
-  --color-accent: #f05032;
-  --color-accent-dark: #c0392b;
-  --color-accent-rgb: 240, 80, 50;
-  --color-text: #2d2d2d;
-  --color-bg: #ffffff;
-  --color-code-bg: #1e1e1e;
-  --color-code-text: #d4d4d4;
-  --color-border: #e0e0e0;
-  --color-sidebar-bg: #f8f8f8;
-  --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  --color-accent:       #f05032;
+  --color-accent-dark:  #c0392b;
+  --color-accent-muted: rgba(240, 80, 50, 0.1);
+  --color-accent-rgb:   240, 80, 50;
 
-  /* Override Olivero's blue accent with Git orange */
-  --color-focus: var(--color-accent);
-  --color-link: var(--color-accent);
-  --color-link--hover: var(--color-accent-dark);
-  --color-link--visited: #9b2c1a;
+  --color-header:       #18181b;  /* zinc-900 — deeper than bare #2d2d2d */
+
+  --color-bg:           #ffffff;
+  --color-bg-subtle:    #f8fafc;
+  --color-text:         #111827;
+  --color-text-muted:   #6b7280;
+  --color-border:       #e5e7eb;
+
+  --color-code-bg:      #0d1117;  /* GitHub dark */
+  --color-code-text:    #e6edf3;
+  --color-code-border:  #30363d;
+  --color-code-chrome:  #161b22;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'Fira Code', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+
+  /* Olivero overrides */
+  --color-focus:          var(--color-accent);
+  --color-link:           var(--color-accent);
+  --color-link--hover:    var(--color-accent-dark);
+  --color-link--visited:  #9b2c1a;
 }
 
-/* === Body === */
+/* ================================================================
+   BASE
+   ================================================================ */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--color-bg);
+  font-family: var(--font-sans);
   color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* === Links === */
+/* ================================================================
+   LINKS
+   ================================================================ */
 a,
 a:link {
   color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-color: rgba(240, 80, 50, 0.3);
+  text-underline-offset: 0.2em;
+  transition: color 0.15s, text-decoration-color 0.15s;
 }
 
 a:hover {
   color: var(--color-accent-dark);
+  text-decoration-color: var(--color-accent-dark);
 }
 
 a:visited {
   color: var(--color-link--visited);
 }
 
-/* === Header: dark background + orange bottom border ===
- * Olivero's .site-header__inner overrides .site-header with var(--color--white),
- * so we must explicitly darken the inner container as well.
- * .header-nav is always white in Olivero (fixed panel on mobile, static on desktop)
- * — override it to dark so nav links are readable on the dark header.
- */
+/* ================================================================
+   HEADER
+   Olivero's .site-header__inner has background:white and .header-nav
+   is always white — both must be explicitly darkened.
+   ================================================================ */
 .site-header,
 .site-header__inner {
-  background: #2d2d2d;
-  border-bottom: 4px solid var(--color-accent);
+  background: var(--color-header);
+  border-bottom: 3px solid var(--color-accent);
 }
 
+/* The nav panel (slide-out on mobile, inline on desktop ≥75rem) */
 .header-nav {
-  background-color: #2d2d2d;
-  border-block-start-color: #2d2d2d; /* Top border doubles as spacing above close btn */
+  background: var(--color-header);
+  border-block-start-color: var(--color-header); /* top-border spacer above close btn */
 }
 
+/* ================================================================
+   SITE BRANDING
+   ================================================================ */
 .site-branding__name a {
+  font-family: var(--font-sans);
   color: #fff;
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
+  letter-spacing: -0.01em;
   text-decoration: none;
 }
 
@@ -73,32 +104,35 @@ a:visited {
   text-decoration: none;
 }
 
-/* Orange square accent before site name */
+/* Orange square — evokes the git logo */
 .site-branding__name a::before {
   content: '';
   display: inline-block;
-  width: 1em;
-  height: 1em;
+  width: 0.85em;
+  height: 0.85em;
   background: var(--color-accent);
-  border-radius: 3px;
-  margin-right: 0.4em;
+  border-radius: 2px;
+  margin-right: 0.45em;
   vertical-align: middle;
   position: relative;
-  top: -0.05em;
+  top: -0.06em;
 }
 
-/* === Primary navigation === */
+/* ================================================================
+   PRIMARY NAVIGATION
+   ================================================================ */
 .header-nav .menu a,
 .header-nav .menu a:link {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.65);
   text-decoration: none;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.01em;
+  transition: color 0.15s;
 }
 
 .header-nav .menu a:hover {
-  color: var(--color-accent);
+  color: #fff;
   text-decoration: none;
 }
 
@@ -107,17 +141,19 @@ a:visited {
   color: var(--color-accent);
 }
 
-/* Override Olivero's .primary-nav__menu-link near-black color.
- * Use the ID (#site-header__inner) for high specificity — class selectors
- * tie with Olivero's and lose when its CSS loads later in the bundle. */
+/* Override Olivero's near-black .primary-nav__menu-link.
+ * ID selector (specificity 1,1,0) beats any class-only Olivero rule. */
 #site-header__inner .primary-nav__menu-link,
 #site-header__inner .primary-nav__menu-link--has-children {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
 }
 
 #site-header__inner .primary-nav__menu-link:hover,
 #site-header__inner .primary-nav__menu-link--has-children:hover {
-  color: var(--color-accent);
+  color: #fff;
 }
 
 #site-header__inner .primary-nav__menu-item--active-trail > .primary-nav__menu-link,
@@ -125,62 +161,66 @@ a:visited {
   color: var(--color-accent);
 }
 
-/* === Language switcher — dropdown ===
- * Drupal renders: div.language-switcher-language-url > div.block__content > ul.links > li
- * JS inserts a .lang-trigger button before ul.links so the trigger stays in-flow and
- * ul.links is always position:absolute — no layout shift when the panel opens.
- */
+/* ================================================================
+   LANGUAGE SWITCHER — DROPDOWN
+   JS (lang-switcher.js) inserts a .lang-trigger <button> before
+   ul.links so the panel is always position:absolute — no layout jump.
+   ================================================================ */
 .language-switcher-language-url {
   position: relative;
 }
 
-/* In-flow trigger button created by lang-switcher.js */
+/* In-flow trigger button */
 .lang-trigger {
   display: flex;
   align-items: center;
-  gap: 0.35em;
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 0.8rem;
-  font-weight: 700;
+  gap: 0.3em;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.8);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
   letter-spacing: 0.04em;
-  padding: 0.3em 0.5em;
+  padding: 0.25em 0.65em;
   cursor: pointer;
   white-space: nowrap;
-  border-radius: 3px;
-  font-family: inherit;
-  line-height: 1;
+  border-radius: 5px;
+  line-height: 1.5;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 
 .lang-trigger:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
 }
 
 .lang-trigger::after {
   content: '▾';
-  font-size: 0.9em;
+  font-size: 0.8em;
   opacity: 0.6;
   transition: transform 0.15s;
+  margin-left: 0.1em;
 }
 
 .language-switcher-language-url.is-open .lang-trigger::after {
   transform: rotate(180deg);
 }
 
-/* Dropdown panel — always absolute, shown/hidden via is-open */
+/* Dropdown panel — always absolute */
 .language-switcher-language-url .links {
   display: none;
   position: absolute;
-  top: calc(100% + 0.3rem);
+  top: calc(100% + 0.5rem);
   right: 0;
-  background: #1e1e1e;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
-  min-width: 9rem;
-  z-index: 500;
-  padding: 0.25rem 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  background: #252525;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 7px;
+  min-width: 10rem;
+  z-index: 600;
+  padding: 0.3rem 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
   list-style: none;
   margin: 0;
 }
@@ -189,62 +229,133 @@ a:visited {
   display: block;
 }
 
-/* All links in the panel */
 .language-switcher-language-url .links li > a {
   display: block;
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
   font-weight: 500;
-  padding: 0.4em 0.75em;
+  padding: 0.45em 0.9em;
   text-decoration: none;
   transition: background 0.1s, color 0.1s;
   white-space: nowrap;
 }
 
 .language-switcher-language-url .links li > a:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.07);
   color: #fff;
 }
 
-/* === Page title === */
+/* ================================================================
+   PAGE TITLE
+   ================================================================ */
 h1.page-title,
 .page-title {
-  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 2rem;
   font-weight: 800;
-  border-bottom: 3px solid var(--color-border);
-  padding-bottom: 0.5rem;
-  margin-bottom: 1.5rem;
+  color: var(--color-text);
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.75rem;
 }
 
-/* === Content headings === */
+/* ================================================================
+   CONTENT TYPOGRAPHY
+   ================================================================ */
+.node__content,
+.field--type-text-with-summary {
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.node__content p,
+.field--type-text-with-summary p {
+  margin-bottom: 1.25rem;
+}
+
 .node__content h2,
 .field--type-text-with-summary h2 {
-  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 1.375rem;
   font-weight: 700;
-  border-bottom: 2px solid var(--color-border);
-  padding-bottom: 0.2rem;
-  margin-top: 2rem;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.4rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 .node__content h3,
 .field--type-text-with-summary h3 {
-  color: var(--color-accent);
-  font-weight: 600;
-  margin-top: 1.5rem;
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+  margin-top: 2rem;
+  margin-bottom: 0.6rem;
 }
 
-/* === Code blocks — dark background === */
+.node__content h4,
+.field--type-text-with-summary h4 {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-top: 1.5rem;
+  margin-bottom: 0.4rem;
+}
+
+/* ================================================================
+   CODE BLOCKS — terminal chrome aesthetic
+   ================================================================ */
 pre {
+  position: relative;
   background: var(--color-code-bg) !important;
   color: var(--color-code-text) !important;
-  border-radius: 6px;
-  padding: 1.25rem 1.5rem;
+  border-radius: 8px;
+  padding: 1rem 1.5rem 1.25rem;
+  padding-top: 2.75rem;    /* room for the chrome bar */
   overflow-x: auto;
-  margin: 1.5rem 0;
-  border-left: 4px solid var(--color-accent);
+  margin: 1.75rem 0;
+  border: 1px solid var(--color-code-border);
   font-family: var(--font-mono);
-  font-size: 0.875rem;
-  line-height: 1.6;
+  font-size: 0.85rem;
+  line-height: 1.65;
+  /* left accent removed — chrome bar replaces it */
+}
+
+/* Top chrome bar */
+pre::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2.25rem;
+  background: var(--color-code-chrome);
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid var(--color-code-border);
+  pointer-events: none;
+}
+
+/* Three terminal dots (red / yellow / green) via box-shadow */
+pre::after {
+  content: '';
+  position: absolute;
+  top: 0.8rem;
+  left: 0.95rem;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  background: #ff5f57;
+  box-shadow: 1.05rem 0 0 #febc2e, 2.1rem 0 0 #28c840;
+  pointer-events: none;
 }
 
 pre code {
@@ -253,104 +364,138 @@ pre code {
   padding: 0;
   font-size: inherit;
   border-radius: 0;
+  border: none;
+  font-family: var(--font-mono);
 }
 
+/* Inline code */
 code {
   font-family: var(--font-mono);
-  font-size: 0.875em;
-  background: #f0f0f0;
-  color: var(--color-accent-dark);
-  padding: 0.1em 0.35em;
-  border-radius: 3px;
+  font-size: 0.85em;
+  background: var(--color-bg-subtle);
+  color: #c7254e;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
 }
 
-/* === Tables (command flags) === */
+/* ================================================================
+   TABLES
+   ================================================================ */
 .node__content table,
 .field--type-text-with-summary table {
   width: 100%;
   border-collapse: collapse;
-  margin: 1.5rem 0;
+  margin: 1.75rem 0;
   font-size: 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .node__content th,
 .field--type-text-with-summary th {
-  background: #2d2d2d;
-  color: #fff;
+  background: var(--color-header);
+  color: rgba(255, 255, 255, 0.9);
   text-align: left;
-  padding: 0.6rem 1rem;
+  padding: 0.65rem 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
   font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .node__content td,
 .field--type-text-with-summary td {
-  padding: 0.5rem 1rem;
+  padding: 0.65rem 1rem;
   border-bottom: 1px solid var(--color-border);
   vertical-align: top;
 }
 
+.node__content tr:last-child td,
+.field--type-text-with-summary tr:last-child td {
+  border-bottom: 0;
+}
+
 .node__content tr:nth-child(even) td,
 .field--type-text-with-summary tr:nth-child(even) td {
-  background: #fafafa;
+  background: var(--color-bg-subtle);
 }
 
 .node__content td code,
 .field--type-text-with-summary td code {
   background: transparent;
-  color: var(--color-accent-dark);
+  border: none;
+  color: #c7254e;
   font-weight: 600;
   padding: 0;
 }
 
-/* === Sidebar (Olivero's sidebar region) === */
+/* ================================================================
+   SIDEBAR — documentation nav feel
+   ================================================================ */
 .region-sidebar {
-  background: var(--color-sidebar-bg);
-  border-radius: 6px;
-  padding: 1rem;
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0;
   font-size: 0.875rem;
+  overflow: hidden;
 }
 
 .region-sidebar .block__title {
-  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #888;
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--color-border);
+  color: var(--color-text-muted);
+  padding: 1rem 1.25rem 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+  margin: 0;
+  background: #fff;
 }
 
 .region-sidebar ul {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0.5rem 0;
 }
 
 .region-sidebar ul li {
-  border-bottom: 1px solid var(--color-border);
+  margin: 0;
 }
 
 .region-sidebar ul li a {
   display: block;
-  padding: 0.5rem 0.5rem 0.5rem 0.75rem;
-  color: var(--color-text);
-  border-left: 3px solid transparent;
-  transition: all 0.15s;
+  padding: 0.375rem 1.25rem 0.375rem 1.5rem;
+  color: var(--color-text-muted);
+  border-left: 2px solid transparent;
+  transition: color 0.1s, border-color 0.1s, background 0.1s;
   text-decoration: none;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
+  line-height: 1.45;
 }
 
-.region-sidebar ul li a:hover,
+.region-sidebar ul li a:hover {
+  color: var(--color-text);
+  border-left-color: var(--color-border);
+  background: rgba(0, 0, 0, 0.02);
+}
+
 .region-sidebar ul li.is-active > a {
-  border-left-color: var(--color-accent);
-  background: rgba(240, 80, 50, 0.05);
   color: var(--color-accent);
+  border-left-color: var(--color-accent);
+  background: var(--color-accent-muted);
+  font-weight: 600;
 }
 
-/* === Section taxonomy label === */
+/* ================================================================
+   SECTION TAXONOMY LABEL
+   ================================================================ */
 .field--name-field-section {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -362,7 +507,9 @@ code {
   display: none;
 }
 
-/* === Difficulty badge === */
+/* ================================================================
+   DIFFICULTY BADGE
+   ================================================================ */
 .field--name-field-difficulty {
   margin-bottom: 1rem;
 }
@@ -376,14 +523,17 @@ code {
   padding: 0.2em 0.75em;
   border-radius: 999px;
   font-size: 0.7rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  background: #f0f0f0;
-  color: #666;
+  letter-spacing: 0.07em;
+  background: var(--color-bg-subtle);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
 }
 
-/* === Related pages / commands === */
+/* ================================================================
+   RELATED PAGES / COMMANDS — chip links
+   ================================================================ */
 .field--name-field-related-pages,
 .field--name-field-related-commands {
   margin-top: 2.5rem;
@@ -393,11 +543,11 @@ code {
 
 .field--name-field-related-pages .field__label,
 .field--name-field-related-commands .field__label {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #888;
+  color: var(--color-text-muted);
   margin-bottom: 0.75rem;
   display: block;
 }
@@ -412,14 +562,14 @@ code {
 .field--name-field-related-pages .field__item a,
 .field--name-field-related-commands .field__item a {
   display: inline-block;
-  background: #f0f0f0;
+  background: var(--color-bg-subtle);
   color: var(--color-text);
   padding: 0.3em 0.75em;
-  border-radius: 4px;
+  border-radius: 5px;
   font-size: 0.8125rem;
   font-family: var(--font-mono);
   text-decoration: none;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
   border: 1px solid var(--color-border);
 }
 
@@ -430,53 +580,94 @@ code {
   border-color: var(--color-accent);
 }
 
-/* === Breadcrumb === */
+/* ================================================================
+   BREADCRUMB
+   ================================================================ */
 .breadcrumb {
-  font-size: 0.8125rem;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
 }
 
-/* === Footer === */
-.site-footer {
-  background: #2d2d2d;
-  color: rgba(255, 255, 255, 0.6);
-  margin-top: 4rem;
+.breadcrumb a {
+  color: var(--color-text-muted);
+  text-decoration: none;
 }
 
-.site-footer a {
+.breadcrumb a:hover {
   color: var(--color-accent);
 }
 
-/* === Scolta search block === */
+/* ================================================================
+   SCOLTA SEARCH BLOCK
+   ================================================================ */
 #scolta-search {
   max-width: 900px;
   margin: 0 auto;
 }
 
-/* === Olivero button override to use orange === */
+/* ================================================================
+   BUTTONS
+   ================================================================ */
 .button--primary,
 input[type="submit"],
 button[type="submit"] {
   background: var(--color-accent);
   border-color: var(--color-accent);
   color: #fff;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  border-radius: 6px;
+  transition: background 0.15s, border-color 0.15s;
 }
 
 .button--primary:hover,
-input[type="submit"]:hover {
+input[type="submit"]:hover,
+button[type="submit"]:hover {
   background: var(--color-accent-dark);
   border-color: var(--color-accent-dark);
 }
 
-/* === Focus ring in orange === */
-:focus-visible {
-  outline: 3px solid var(--color-accent);
-  outline-offset: 2px;
+/* ================================================================
+   FOOTER
+   ================================================================ */
+.site-footer {
+  background: var(--color-header);
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 5rem;
+  border-top: 3px solid var(--color-accent);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
 }
 
-/* === Mobile adjustments === */
+.site-footer a {
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.site-footer a:hover {
+  color: var(--color-accent);
+}
+
+/* ================================================================
+   FOCUS
+   ================================================================ */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* ================================================================
+   MOBILE
+   ================================================================ */
 @media (max-width: 767px) {
   .language-switcher-language-url .links {
     right: auto;
     left: 0;
+  }
+
+  h1.page-title,
+  .page-title {
+    font-size: 1.625rem;
   }
 }

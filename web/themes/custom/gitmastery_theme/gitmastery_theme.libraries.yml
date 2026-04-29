@@ -1,6 +1,8 @@
 global:
   version: 1.x
   css:
+    base:
+      'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap': { type: external }
     theme:
       css/gitmastery.css: {}
   js:
