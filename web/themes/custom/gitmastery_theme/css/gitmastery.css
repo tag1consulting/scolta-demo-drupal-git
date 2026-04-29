@@ -100,19 +100,21 @@ a:visited {
   color: var(--color-accent);
 }
 
-/* Override Olivero's .primary-nav__menu-link which sets near-black text color */
-.site-header__inner .primary-nav__menu-link,
-.site-header__inner .primary-nav__menu-link--has-children {
+/* Override Olivero's .primary-nav__menu-link near-black color.
+ * Use the ID (#site-header__inner) for high specificity — class selectors
+ * tie with Olivero's and lose when its CSS loads later in the bundle. */
+#site-header__inner .primary-nav__menu-link,
+#site-header__inner .primary-nav__menu-link--has-children {
   color: rgba(255, 255, 255, 0.85);
 }
 
-.site-header__inner .primary-nav__menu-link:hover,
-.site-header__inner .primary-nav__menu-link--has-children:hover {
+#site-header__inner .primary-nav__menu-link:hover,
+#site-header__inner .primary-nav__menu-link--has-children:hover {
   color: var(--color-accent);
 }
 
-.site-header__inner .primary-nav__menu-item--active-trail > .primary-nav__menu-link,
-.site-header__inner .primary-nav__menu-item--active > .primary-nav__menu-link {
+#site-header__inner .primary-nav__menu-item--active-trail > .primary-nav__menu-link,
+#site-header__inner .primary-nav__menu-item--active > .primary-nav__menu-link {
   color: var(--color-accent);
 }
 
