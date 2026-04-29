@@ -1,0 +1,15 @@
+_core:
+  default_config_hash: ijfbzDTN4CbE7Sr-6ubWzy_t1vH4OtU1doNCLssVz-4
+langcode: en
+uuid: 3b3f63fb-d4fb-44fc-80f2-16c9b273e812
+name: GitMastery
+mail: admin@gitmastery.local
+slogan: 'The complete guide to Git'
+page:
+  403: ''
+  404: ''
+  front: /node/1
+admin_compact_mode: false
+weight_select_max: 100
+default_langcode: en
+mail_notification: null

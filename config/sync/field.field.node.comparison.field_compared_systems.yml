@@ -1,0 +1,19 @@
+uuid: 17cd2316-250f-41ef-981e-9a7facbec587
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_compared_systems
+    - node.type.comparison
+id: node.comparison.field_compared_systems
+field_name: field_compared_systems
+entity_type: node
+bundle: comparison
+label: 'Compared Systems'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

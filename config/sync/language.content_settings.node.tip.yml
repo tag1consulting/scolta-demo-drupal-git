@@ -1,0 +1,16 @@
+uuid: 88408e65-f472-4cd2-86cd-738943144b20
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.tip
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.tip
+target_entity_type_id: node
+target_bundle: tip
+default_langcode: site_default
+language_alterable: false

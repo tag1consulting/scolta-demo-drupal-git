@@ -1,0 +1,26 @@
+name: gitmastery
+type: drupal
+docroot: web
+php_version: "8.3"
+webserver_type: nginx-fpm
+router_http_port: "80"
+router_https_port: "443"
+mariadb_version: "10.11"
+database:
+  type: mariadb
+  version: "10.11"
+
+hooks:
+  post-start:
+    - exec: composer install --no-interaction
+    - exec: |
+        if [ -f /var/www/html/db/dump.sql.gz ]; then
+          echo "Importing database..."
+          zcat /var/www/html/db/dump.sql.gz | mysql -u root -proot db
+          drush cache:rebuild
+          echo "Database imported and caches cleared."
+        else
+          echo "No database dump found, skipping import."
+        fi
+
+additional_fqdns: []

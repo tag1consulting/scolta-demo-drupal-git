@@ -1,0 +1,25 @@
+uuid: 1ee20c1a-8898-4633-a8f9-be1576e9cbe2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_difficulty
+    - node.type.tutorial
+    - taxonomy.vocabulary.difficulty
+id: node.tutorial.field_difficulty
+field_name: field_difficulty
+entity_type: node
+bundle: tutorial
+label: Difficulty
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      difficulty: difficulty
+    auto_create: false
+field_type: entity_reference

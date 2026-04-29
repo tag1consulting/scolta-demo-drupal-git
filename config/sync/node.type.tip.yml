@@ -1,0 +1,11 @@
+uuid: 3b97bcc2-8667-479c-bc91-e24bbd5b7bb3
+langcode: en
+status: true
+dependencies: {  }
+name: Tip
+type: tip
+description: 'A Git tip or trick.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

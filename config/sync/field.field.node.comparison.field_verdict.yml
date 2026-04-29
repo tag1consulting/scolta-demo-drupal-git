@@ -1,0 +1,22 @@
+uuid: d7534cd6-09d7-430c-bba7-85ea34911c88
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_verdict
+    - node.type.comparison
+  module:
+    - text
+id: node.comparison.field_verdict
+field_name: field_verdict
+entity_type: node
+bundle: comparison
+label: Verdict
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

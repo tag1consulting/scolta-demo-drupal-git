@@ -1,0 +1,22 @@
+uuid: 10a2a423-b841-4b98-9729-dd0358f5497f
+langcode: en
+status: true
+dependencies:
+  theme:
+    - gitmastery_theme
+_core:
+  default_config_hash: ydSxdq7R66I8UMC460rOzlfzvlUL4VRbdwc6z9DWaUI
+id: gitmastery_theme_secondary_local_tasks
+theme: gitmastery_theme
+region: header
+weight: -2
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Secondary tabs'
+  label_display: '0'
+  provider: core
+  primary: false
+  secondary: true
+visibility: {  }

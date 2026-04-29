@@ -1,0 +1,11 @@
+uuid: 2e321e33-268c-4113-a193-1b19095761b9
+langcode: en
+status: true
+dependencies: {  }
+name: Tutorial
+type: tutorial
+description: 'A hands-on Git tutorial.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

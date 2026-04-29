@@ -1,0 +1,16 @@
+uuid: 2b2f05cf-abb9-43e2-a6d1-0bb7d9b63407
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.comparison
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.comparison
+target_entity_type_id: node
+target_bundle: comparison
+default_langcode: site_default
+language_alterable: false

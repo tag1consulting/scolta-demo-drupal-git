@@ -1,0 +1,24 @@
+uuid: 9c95d1b2-0ef1-47f6-9bdf-c797d22bab21
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_related_commands
+    - node.type.documentation_page
+id: node.documentation_page.field_related_commands
+field_name: field_related_commands
+entity_type: node
+bundle: documentation_page
+label: 'Related Commands'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      documentation_page: documentation_page
+    auto_create: false
+field_type: entity_reference

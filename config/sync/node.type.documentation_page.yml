@@ -1,0 +1,11 @@
+uuid: c9cf7e03-ad8a-438f-b8fa-1d6ca355844f
+langcode: en
+status: true
+dependencies: {  }
+name: 'Documentation Page'
+type: documentation_page
+description: 'A Git documentation page.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

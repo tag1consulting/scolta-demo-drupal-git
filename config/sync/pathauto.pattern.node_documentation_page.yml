@@ -1,0 +1,21 @@
+uuid: 90db9997-812c-4709-abd2-3eb32a921eb2
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node_documentation_page
+label: 'Documentation page'
+type: 'canonical_entities:node'
+pattern: '/[node:langcode]/docs/[node:field_section:name:slug]/[node:title]'
+selection_criteria:
+  ad97b4ec-7d5a-4b07-8277-d2b02b4d857e:
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: node
+    bundles:
+      documentation_page: documentation_page
+selection_logic: and
+weight: 0
+relationships: {  }

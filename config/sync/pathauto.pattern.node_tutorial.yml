@@ -1,0 +1,21 @@
+uuid: 2134382d-9cca-42c1-ae85-fecbd5eeb124
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node_tutorial
+label: Tutorial
+type: 'canonical_entities:node'
+pattern: '/[node:langcode]/tutorials/[node:title]'
+selection_criteria:
+  ad97b4ec-7d5a-4b07-8277-d2b02b4d857e:
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: node
+    bundles:
+      tutorial: tutorial
+selection_logic: and
+weight: 0
+relationships: {  }

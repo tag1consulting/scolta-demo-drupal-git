@@ -1,0 +1,22 @@
+uuid: a5c30a32-ad6e-42bc-895e-b9c0ea1c9554
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_feature_table
+    - node.type.comparison
+  module:
+    - text
+id: node.comparison.field_feature_table
+field_name: field_feature_table
+entity_type: node
+bundle: comparison
+label: 'Feature Comparison Table'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

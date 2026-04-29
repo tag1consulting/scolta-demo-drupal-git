@@ -1,0 +1,16 @@
+uuid: d70950b5-d409-4839-a2ee-a9123ea90d0b
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.tutorial
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.tutorial
+target_entity_type_id: node
+target_bundle: tutorial
+default_langcode: site_default
+language_alterable: false

@@ -1,0 +1,25 @@
+uuid: fd7acb87-1331-4838-b97b-9529697001cf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_category
+    - node.type.tip
+    - taxonomy.vocabulary.topic
+id: node.tip.field_category
+field_name: field_category
+entity_type: node
+bundle: tip
+label: Category
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      topic: topic
+    auto_create: false
+field_type: entity_reference

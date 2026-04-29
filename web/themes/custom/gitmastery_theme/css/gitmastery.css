@@ -1,0 +1,360 @@
+/* GitMastery Theme — Git orange accent, charcoal text, dark code blocks */
+
+:root {
+  --color-bg: #ffffff;
+  --color-text: #2d2d2d;
+  --color-accent: #f05032;
+  --color-accent-dark: #c0392b;
+  --color-code-bg: #1e1e1e;
+  --color-code-text: #d4d4d4;
+  --color-border: #e0e0e0;
+  --color-sidebar-bg: #f8f8f8;
+  --color-link: #f05032;
+  --color-link-hover: #c0392b;
+  --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+/* === Base === */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  line-height: 1.7;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-accent-dark);
+  text-decoration: underline;
+}
+
+/* === Header === */
+.site-header,
+.region-header {
+  background: var(--color-text);
+  color: #fff;
+  border-bottom: 4px solid var(--color-accent);
+}
+
+.site-branding__name a {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.site-branding__name a:hover {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+/* Git logo SVG accent mark before site name */
+.site-branding__name a::before {
+  content: '';
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  background-color: var(--color-accent);
+  border-radius: 3px;
+  margin-right: 0.4em;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+
+/* === Navigation === */
+.region-primary-menu nav ul {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0.75rem 0;
+}
+
+.region-primary-menu nav ul li a {
+  color: rgba(255,255,255,0.85);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: color 0.15s;
+}
+
+.region-primary-menu nav ul li a:hover,
+.region-primary-menu nav ul li.is-active > a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+/* === Language switcher === */
+.language-switcher-language-url {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.language-switcher-language-url li {
+  list-style: none;
+}
+
+.language-switcher-language-url li.is-active a,
+.language-switcher-language-url li.is-active span {
+  background: var(--color-accent);
+  color: #fff;
+  border-radius: 3px;
+  padding: 0.1em 0.4em;
+  font-weight: 700;
+}
+
+.language-switcher-language-url li a {
+  color: rgba(255,255,255,0.7);
+  padding: 0.1em 0.4em;
+  border-radius: 3px;
+  transition: background 0.15s;
+}
+
+.language-switcher-language-url li a:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* === Layout: sidebar + content === */
+.layout-container {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-areas:
+    "breadcrumb breadcrumb"
+    "sidebar content";
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  gap: 0 2rem;
+}
+
+.region-breadcrumb { grid-area: breadcrumb; padding: 0.75rem 0; border-bottom: 1px solid var(--color-border); margin-bottom: 1.5rem; }
+.region-sidebar-first { grid-area: sidebar; }
+.region-content { grid-area: content; min-width: 0; }
+
+@media (max-width: 900px) {
+  .layout-container {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "breadcrumb"
+      "content"
+      "sidebar";
+  }
+}
+
+/* === Sidebar === */
+.region-sidebar-first {
+  background: var(--color-sidebar-bg);
+  border-right: 1px solid var(--color-border);
+  padding: 1.5rem 1rem 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.region-sidebar-first ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.region-sidebar-first ul li {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.region-sidebar-first ul li a {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  color: var(--color-text);
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+}
+
+.region-sidebar-first ul li a:hover,
+.region-sidebar-first ul li.is-active > a {
+  border-left-color: var(--color-accent);
+  background: rgba(240,80,50,0.05);
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+/* === Content === */
+.node__content h1,
+.node__content h2,
+.node__content h3 {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.node__content h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+.node__content h2 { font-size: 1.4rem; margin-top: 2rem; border-bottom: 2px solid var(--color-border); padding-bottom: 0.25rem; }
+.node__content h3 { font-size: 1.1rem; margin-top: 1.5rem; color: var(--color-accent); }
+
+/* === Code blocks === */
+pre,
+pre code {
+  background: var(--color-code-bg);
+  color: var(--color-code-text);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+pre {
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  border-left: 4px solid var(--color-accent);
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: #f0f0f0;
+  color: #c0392b;
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* === Tables (command flags) === */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+th {
+  background: var(--color-text);
+  color: #fff;
+  text-align: left;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+}
+
+td {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+tr:nth-child(even) td {
+  background: #fafafa;
+}
+
+td code {
+  background: transparent;
+  color: var(--color-accent-dark);
+  font-weight: 600;
+}
+
+/* === Breadcrumb === */
+.breadcrumb ol {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.breadcrumb ol li + li::before {
+  content: '/';
+  color: #ccc;
+  margin-right: 0.5rem;
+}
+
+/* === Difficulty badge === */
+.field--name-field-difficulty .field__item {
+  display: inline-block;
+  padding: 0.2em 0.75em;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* === Section label === */
+.field--name-field-section {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+/* === Footer === */
+.region-footer {
+  background: var(--color-text);
+  color: rgba(255,255,255,0.6);
+  text-align: center;
+  padding: 2rem 1.5rem;
+  font-size: 0.85rem;
+  margin-top: 4rem;
+}
+
+.region-footer a {
+  color: var(--color-accent);
+}
+
+/* === Related pages === */
+.field--name-field-related-pages,
+.field--name-field-related-commands {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--color-border);
+}
+
+.field--name-field-related-pages .field__label,
+.field--name-field-related-commands .field__label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #888;
+  margin-bottom: 0.75rem;
+}
+
+.field--name-field-related-pages .field__items,
+.field--name-field-related-commands .field__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.field--name-field-related-pages .field__item a,
+.field--name-field-related-commands .field__item a {
+  display: inline-block;
+  background: #f0f0f0;
+  color: var(--color-text);
+  padding: 0.3em 0.75em;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  transition: all 0.15s;
+}
+
+.field--name-field-related-pages .field__item a:hover,
+.field--name-field-related-commands .field__item a:hover {
+  background: var(--color-accent);
+  color: #fff;
+  text-decoration: none;
+}

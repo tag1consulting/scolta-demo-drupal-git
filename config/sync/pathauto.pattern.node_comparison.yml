@@ -1,0 +1,21 @@
+uuid: 2c395f0f-ddb5-4133-9c95-58cfe7aad801
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node_comparison
+label: Comparison
+type: 'canonical_entities:node'
+pattern: '/[node:langcode]/comparisons/[node:title]'
+selection_criteria:
+  ad97b4ec-7d5a-4b07-8277-d2b02b4d857e:
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: node
+    bundles:
+      comparison: comparison
+selection_logic: and
+weight: 0
+relationships: {  }

@@ -1,0 +1,21 @@
+uuid: d84ce903-d08a-4c2b-9e57-a795f1b54197
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node_tip
+label: Tip
+type: 'canonical_entities:node'
+pattern: '/[node:langcode]/tips/[node:title]'
+selection_criteria:
+  ad97b4ec-7d5a-4b07-8277-d2b02b4d857e:
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: node
+    bundles:
+      tip: tip
+selection_logic: and
+weight: 0
+relationships: {  }

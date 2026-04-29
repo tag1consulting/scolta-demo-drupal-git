@@ -1,0 +1,20 @@
+name: GitMastery Theme
+type: theme
+base theme: olivero
+description: GitMastery documentation theme — Olivero sub-theme with Git orange accent colors.
+core_version_requirement: ^11
+package: Custom
+
+libraries:
+  - gitmastery_theme/global
+
+regions:
+  header: Header
+  primary_menu: Primary navigation
+  breadcrumb: Breadcrumb
+  sidebar_first: Sidebar navigation
+  content: Content
+  footer: Footer
+
+regions_hidden:
+  - sidebar_second

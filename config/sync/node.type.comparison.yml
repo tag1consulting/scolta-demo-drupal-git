@@ -1,0 +1,11 @@
+uuid: 22eb0100-636c-4e77-b626-bc8b469f968a
+langcode: en
+status: true
+dependencies: {  }
+name: Comparison
+type: comparison
+description: 'A comparison between Git and another VCS.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

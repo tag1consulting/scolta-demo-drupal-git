@@ -1,0 +1,19 @@
+uuid: 842f5d93-2e0d-4662-ad0c-38fad5b7d43e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_git_version
+    - node.type.documentation_page
+id: node.documentation_page.field_git_version
+field_name: field_git_version
+entity_type: node
+bundle: documentation_page
+label: 'Git Version'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

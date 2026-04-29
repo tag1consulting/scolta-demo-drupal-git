@@ -1,0 +1,19 @@
+uuid: 8ea2e0c0-9e13-4a7f-8e67-ac05889a7431
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - text
+id: node.field_feature_table
+field_name: field_feature_table
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

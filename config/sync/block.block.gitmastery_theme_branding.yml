@@ -1,0 +1,23 @@
+uuid: c28e3c4b-360b-43b1-b8b6-f5361c2dcefc
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - gitmastery_theme
+id: gitmastery_theme_branding
+theme: gitmastery_theme
+region: header
+weight: -10
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: false
+  use_site_name: true
+  use_site_slogan: false
+visibility: {  }

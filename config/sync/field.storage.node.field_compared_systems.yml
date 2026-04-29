@@ -1,0 +1,21 @@
+uuid: e9a11d7c-64b5-4d51-974b-07fd00ec0dc3
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_compared_systems
+field_name: field_compared_systems
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: -1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

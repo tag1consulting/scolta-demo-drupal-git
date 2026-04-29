@@ -1,0 +1,26 @@
+uuid: 40c02892-5c2f-4c03-b15d-72f323d272f9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_prerequisites
+    - node.type.documentation_page
+    - node.type.tutorial
+id: node.tutorial.field_prerequisites
+field_name: field_prerequisites
+entity_type: node
+bundle: tutorial
+label: Prerequisites
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      documentation_page: documentation_page
+      tutorial: tutorial
+    auto_create: false
+field_type: entity_reference
