@@ -18,7 +18,11 @@
     trigger.className = 'lang-trigger';
     trigger.setAttribute('type', 'button');
     trigger.setAttribute('aria-expanded', 'false');
-    trigger.textContent = activeLink.textContent.trim();
+    // Show the 2-letter language code (e.g. "EN") extracted from the link
+    // href (e.g. "/en", "/fr/taxonomy/…"). Falls back to the link text.
+    var href = activeLink.getAttribute('href') || '';
+    var match = href.match(/^\/([a-z]{2})(?:\/|$)/);
+    trigger.textContent = match ? match[1].toUpperCase() : activeLink.textContent.trim();
     list.parentNode.insertBefore(trigger, list);
 
     // The active language is already the trigger — hide it from the panel.
