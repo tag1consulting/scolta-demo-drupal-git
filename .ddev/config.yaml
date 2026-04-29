@@ -19,6 +19,10 @@ hooks:
           zcat /var/www/html/db/dump.sql.gz | mysql -u root -proot db
           drush cache:rebuild
           echo "Database imported and caches cleared."
+          echo "Building Scolta/Pagefind search index..."
+          mkdir -p /var/www/html/web/sites/default/private
+          drush scolta:build
+          echo "Search index built."
         else
           echo "No database dump found, skipping import."
         fi
