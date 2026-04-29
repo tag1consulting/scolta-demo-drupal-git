@@ -47,11 +47,18 @@ a:visited {
 /* === Header: dark background + orange bottom border ===
  * Olivero's .site-header__inner overrides .site-header with var(--color--white),
  * so we must explicitly darken the inner container as well.
+ * .header-nav is always white in Olivero (fixed panel on mobile, static on desktop)
+ * — override it to dark so nav links are readable on the dark header.
  */
 .site-header,
 .site-header__inner {
   background: #2d2d2d;
   border-bottom: 4px solid var(--color-accent);
+}
+
+.header-nav {
+  background-color: #2d2d2d;
+  border-block-start-color: #2d2d2d; /* Top border doubles as spacing above close btn */
 }
 
 .site-branding__name a {
