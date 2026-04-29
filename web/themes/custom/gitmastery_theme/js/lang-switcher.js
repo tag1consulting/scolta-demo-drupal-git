@@ -19,7 +19,7 @@
     trigger.setAttribute('type', 'button');
     trigger.setAttribute('aria-expanded', 'false');
     trigger.textContent = activeLink.textContent.trim();
-    block.insertBefore(trigger, list);
+    list.parentNode.insertBefore(trigger, list);
 
     // The active language is already the trigger — hide it from the panel.
     activeItem.hidden = true;
