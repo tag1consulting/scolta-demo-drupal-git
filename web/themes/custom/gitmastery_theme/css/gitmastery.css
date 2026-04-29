@@ -88,6 +88,26 @@ a:visited {
 }
 
 /* ================================================================
+   MOBILE NAV BUTTON ("Menu" label + hamburger lines)
+   Button inherits browser UA black by default; icon lines use Olivero's
+   blue --color--primary-50. Override both to white in our dark header.
+   ================================================================ */
+#site-header__inner .mobile-nav-button {
+  color: #fff;
+}
+
+#site-header__inner .mobile-nav-button__label {
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.05em;
+}
+
+#site-header__inner .mobile-nav-button__icon,
+#site-header__inner .mobile-nav-button__icon::before,
+#site-header__inner .mobile-nav-button__icon::after {
+  border-top-color: rgba(255, 255, 255, 0.85);
+}
+
+/* ================================================================
    SITE BRANDING
    ================================================================ */
 .site-branding__name a {
@@ -168,11 +188,13 @@ a:visited {
    ul.links so the panel is always position:absolute — no layout jump.
    ================================================================ */
 
-/* Push the block to the right within the header region */
+/* Right-align the block within the header flex row.
+ * align-self:center is critical: it prevents the block from stretching
+ * to the full header height, which would break dropdown positioning
+ * (top:100% would be measured from the bottom of the header, not the button). */
 .block-language {
   margin-left: auto;
-  display: flex;
-  align-items: center;
+  align-self: center;
 }
 
 .language-switcher-language-url {
