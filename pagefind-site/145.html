@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Custom diff drivers with gitattributes</title>
+</head>
+<body data-pagefind-body id="145" data-pagefind-filter="site:Unknown">
+<h1>Custom diff drivers with gitattributes</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/custom-diff-drivers-gitattributes" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+Why custom diffs Git&apos;s default diff is line-by-line text. For binary formats (PDF, DOCX, images) and structured text where line diffs are unhelpful (minified JS, generated SQL dumps), custom diff drivers produce something humans can read. Built-in language drivers Git ships with hunk-header patterns for many languages: ada, bash, bibtex, cpp, csharp, css, dts, elixir, fortran, fountain, golang, html, java, kotlin, markdown, matlab, objc, pascal, perl, php, python, ruby, rust, scheme, tex. Activate via gitattributes: # .gitattributes *.py diff=python *.rs diff=rust *.go diff=golang Now hunk headers in git diff show the enclosing function or class, dramatically improving review. Defining a custom driver Drivers live in your gitconfig: [diff &quot;exif&quot;] textconv = exiftool cachetextconv = true And gitattributes selects them: *.jpg diff=exif *.png diff=exif textconv commands print a textual representation of the file to stdout; Git diffs the outputs. cachetextconv stores the converted text under .git/objects for speed. Word-level diff for prose [diff &quot;tex&quot;] wordRegex = &quot;[^[:space:]\\\\]+&quot; Then run git diff --word-diff for human-friendly prose comparison. Binary detection override Force Git to treat a file as text or binary regardless of heuristics: *.svg diff *.pdf -diff *.bin binary The binary macro is shorthand for -text -diff. Real example: SQL dumps [diff &quot;sqldump&quot;] textconv = &quot;sed &apos;s/^INSERT INTO/\\nINSERT INTO/g&apos;&quot; Splits cramped insert lines into readable diffs. Common mistakes Drivers configured in ~/.gitconfig are local — colleagues see no diff. Document driver installation. Heavy textconv commands without cachetextconv slow every diff. git log -p respects drivers, so misconfigurations affect history readability everywhere. External diff entirely GIT_EXTERNAL_DIFF=meld git diff git config diff.tool meld git difftool Related See &quot;Gitattributes: line endings, exports, and encoding&quot; and &quot;Custom merge strategies and drivers&quot;.
+</body>
+</html>

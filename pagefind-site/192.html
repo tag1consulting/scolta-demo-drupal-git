@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>core.preloadIndex and parallel checkout (Git 2.32+)</title>
+</head>
+<body data-pagefind-body id="192" data-pagefind-filter="site:Unknown">
+<h1>core.preloadIndex and parallel checkout (Git 2.32+)</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/corepreloadindex-and-parallel-checkout-git-232" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+Two parallelism wins Two settings unlock significant speedups for everyday operations. core.preloadIndex parallelizes the lstat calls that git status makes; parallel checkout (Git 2.32+) parallelizes the file writes during git checkout, git switch, and git restore. Preload index git config core.preloadIndex true Default true on most modern builds. With it, Git fans out lstat calls across multiple threads, dramatically faster on filesystems with high syscall latency (network mounts, encrypted filesystems). Parallel checkout git config checkout.workers 0 # auto-detect cores git config checkout.thresholdForParallelism 100 workers=0 uses all cores. thresholdForParallelism controls how many files must change before parallelization kicks in (default 100; below it, single-threaded is faster due to startup overhead). When parallel checkout helps most Switching branches with thousands of file differences. Initial checkout after clone. Restoring large path sets via git restore. Filesystems with slow per-file open (Windows NTFS, network shares). Measurement time git -c checkout.workers=1 checkout main time git -c checkout.workers=0 checkout main GIT_TRACE2_PERF=1 git checkout big-branch 2&gt;&amp;1 | grep -i checkout Caveats Parallel checkout interacts with smudge filters: filters run sequentially per-file, but multiple files run in parallel. Long-running filters (Git LFS) benefit handsomely. Filter order is not guaranteed, but file content is correct. Filesystem warnings On Windows, antivirus software can serialize file creates regardless of Git&apos;s threads. Exclude the working tree from real-time scanning, or you&apos;ll see no benefit. Common mistakes Disabling preloadIndex on slow disks, &quot;to save threads&quot; — backwards: parallelism hides latency. Setting checkout.workers=1 in a Docker base image and forgetting; CI loses 4-8x potential. Confusing checkout.workers (write parallelism) with fetch.parallel (network parallelism) — both useful but for different operations. Related See &quot;Why Git performance matters at scale&quot; and &quot;Configuration playbook for large repositories&quot;.
+</body>
+</html>

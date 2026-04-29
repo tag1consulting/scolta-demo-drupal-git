@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Feature.experimental and feature.manyCommits</title>
+</head>
+<body data-pagefind-body id="190" data-pagefind-filter="site:Unknown">
+<h1>Feature.experimental and feature.manyCommits</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/featureexperimental-and-featuremanycommits" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+Opt-in experiments The Git project tests new performance features behind feature.experimental. Enabling it activates settings under evaluation for default-on. This is the place to look when tracking the bleeding edge of Git performance. What it currently sets Across recent versions, feature.experimental=true has at various times included: protocol.version=2 (now default). fetch.negotiationAlgorithm=skipping (now default). pack.useSparse=true. core.commitGraph=true (now default). core.multiPackIndex=true (now default). The exact set varies by Git version. Inspect after enabling: git config feature.experimental true git config --list --show-origin | grep -i &apos;feature\|protocol\|pack\|commitgraph&apos; feature.manyCommits This feature flag has appeared in Git planning to bundle commit-graph-related defaults. As of recent stable Git, most of those settings are already on by default. Treat feature.manyCommits as a forward-compatibility hook; check your Git version&apos;s documentation. git --version git help config | grep -A3 manyCommits Risk profile &quot;Experimental&quot; means the Git developers think it is ready for broad testing but reserve the right to tune behavior. If you hit a perf regression, file a report and disable the flag. Production CI should pin Git versions to avoid surprises. Tracking changes Read the RelNotes/ directory of the Git source for each release to see what experimental flags have moved in or out. Subscribe to the git@vger.kernel.org mailing list for ongoing discussions. Practical advice For monorepo work, prefer feature.manyFiles over feature.experimental. Use feature.experimental on a personal machine or staging system to evaluate. Document the Git version and feature settings in your CONTRIBUTING.md so the team is consistent. Common mistakes Enabling experimental features in CI then upgrading Git, watching behavior change unexpectedly. Confusing feature.experimental with feature.manyFiles; they overlap but are distinct knobs. Forgetting that some experimental features eventually become default — the flag becomes a no-op rather than retroactively changing behavior. Related See &quot;Feature.manyFiles configuration&quot;, &quot;Why Git performance matters at scale&quot;, and &quot;Configuration playbook for large repositories&quot;.
+</body>
+</html>

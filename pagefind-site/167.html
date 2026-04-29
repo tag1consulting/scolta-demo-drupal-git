@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Multiple remote workflows</title>
+</head>
+<body data-pagefind-body id="167" data-pagefind-filter="site:Unknown">
+<h1>Multiple remote workflows</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/multiple-remote-workflows" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+Why multiple remotes Real workflows often involve more than one remote: an origin for your fork, an upstream for the canonical repo, plus mirrors, deploy targets, and per-environment forks. Git treats remotes as named bundles of fetch and push refspecs, and you can have as many as you like. Adding remotes git remote add origin git@github.com:you/fork.git git remote add upstream https://github.com/org/repo.git git remote add deploy git@deploy.example.com:app.git git remote -v Fetching from all git fetch --all --prune git remote update --prune git fetch upstream main:main # update local main to upstream&apos;s tip Tracking the right thing Push and pull defaults can be set per branch: git branch --set-upstream-to=origin/main main git push -u origin feature git config branch.feature.remote origin git config branch.feature.merge refs/heads/feature Different push and pull URLs git remote set-url --push origin git@github.com:you/fork.git git remote set-url origin https://github.com/you/fork.git Useful when you fetch via HTTPS for speed but push via SSH for auth. Mirroring git remote add mirror --mirror=push git@gitlab.example.com:org/repo.git git push mirror Mirror remotes copy all refs verbatim — branches, tags, notes — making them ideal for backups. Triangular workflow The classic open-source flow: fetch from upstream, push to your fork. Configure once: git config remote.pushDefault origin git config push.default current Now git fetch updates from upstream if that is your branch&apos;s upstream, while git push goes to origin. Per-remote credentials Use the credential.helper with URL-specific config: [credential &quot;https://github.com&quot;] helper = osxkeychain [credential &quot;https://gitlab.example.com&quot;] helper = !pass-git-helper Common mistakes Pushing to upstream by mistake when you meant origin; set remote.pushDefault. Adding a remote without fetching, then being surprised refs are missing. Mixing --mirror on a clone you also work on; mirror clones are bare and meant for replication. Related See &quot;Contributing to open source with Git&quot; and &quot;Advanced gitconfig techniques&quot;.
+</body>
+</html>

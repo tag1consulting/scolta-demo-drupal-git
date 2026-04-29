@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Git notes: attaching metadata to commits</title>
+</head>
+<body data-pagefind-body id="163" data-pagefind-filter="site:Unknown">
+<h1>Git notes: attaching metadata to commits</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/git-notes-attaching-metadata-commits" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+Notes without rewriting git notes attaches arbitrary metadata to existing commits without changing their SHAs. Reviews, build statuses, sign-offs, performance metrics — anything you want associated with a commit can live in notes. They are stored in the special ref refs/notes/commits by default. Adding and editing git notes add -m &quot;Reviewed by team Phoenix&quot; &lt;sha&gt; git notes append -m &quot;QA passed&quot; &lt;sha&gt; git notes edit &lt;sha&gt; git notes show &lt;sha&gt; git notes remove &lt;sha&gt; Using namespaces Notes can live under multiple refs, one per &quot;channel&quot;: git notes --ref=builds add -m &quot;build #1234 OK&quot; &lt;sha&gt; git notes --ref=reviews add -m &quot;LGTM&quot; &lt;sha&gt; git config notes.displayRef &quot;refs/notes/*&quot; notes.displayRef tells git log which note refs to show. Showing in log git log --notes git log --show-notes=builds git log --pretty=format:&apos;%h %s%n%N&apos; --notes The %N placeholder expands to all visible notes for that commit. Sharing notes Notes refs are not fetched by default. Configure explicit fetch refspecs: git config --add remote.origin.fetch &apos;+refs/notes/*:refs/notes/*&apos; git fetch git push origin &apos;refs/notes/*&apos; Use case: CI annotations A CI system can post results back as notes: git notes --ref=ci add -m &quot;duration=312s status=pass coverage=87%&quot; &lt;sha&gt; git push origin refs/notes/ci Developers fetch the notes channel to see results inline with git log. Merging notes If two collaborators add notes to the same commit on different clones, fetching one over the other may conflict. Resolve with: git notes merge -s union refs/notes/origin/commits Strategies: manual (default), ours, theirs, union, cat_sort_uniq. Common mistakes Expecting notes to travel with git push automatically — they do not. Configure refspecs explicitly. Believing notes are immutable like commits; they are versioned in their own ref but rewritable. Putting confidential data in notes — they share the repo&apos;s distribution model. Related See &quot;Advanced git log: formatting, filtering, and graph&quot; and &quot;Git internals: references and the reflog&quot;.
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Feature.manyFiles configuration</title>
+</head>
+<body data-pagefind-body id="189" data-pagefind-filter="site:Unknown">
+<h1>Feature.manyFiles configuration</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/featuremanyfiles-configuration" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+The bundle setting Tuning monorepos involves a dozen settings. Rather than memorize and apply each, Git provides &quot;feature flags&quot; that activate a coherent bundle. feature.manyFiles is the most useful: one knob that enables all the index and stat optimizations. What it sets index.version=4 — prefix compression. core.untrackedCache=true — cache untracked listings. (Implicit) recommended index reading paths. git config feature.manyFiles true git config --list | grep -E &apos;^(index|core)\.&apos; Sister features feature.experimental=true — turns on cutting-edge perf flags being evaluated for default-on. Historical: feature.manyCommits appears in some Git versions; behavior may vary by build. See &quot;Feature.experimental and feature.manyCommits&quot;. Combining with monorepo stack git config feature.manyFiles true git config core.fsmonitor true git config core.commitGraph true git sparse-checkout init --cone --sparse-index git maintenance start This is the canonical setup for repos with hundreds of thousands of files. Behavior across versions The exact set of settings feature.manyFiles activates may change across Git versions. Treat it as opinionated defaults that the Git project tunes for you. Inspect with git config --show-origin --list after enabling. Verifying impact time git -c feature.manyFiles=false status time git -c feature.manyFiles=true status GIT_TRACE2_PERF=1 git status 2&gt;&amp;1 | head -50 Common mistakes Setting feature.manyFiles=true without running git update-index --index-version=4 on an existing repo — the policy is set but the on-disk index stays old. Re-running git status rewrites it, but you can force it: git update-index --index-version 4 git status # rewrites with new defaults Reset git config --unset feature.manyFiles git update-index --index-version 2 Related See &quot;Configuring index.version for performance&quot;, &quot;Feature.experimental and feature.manyCommits&quot;, and &quot;Fsmonitor: faster working tree queries&quot;.
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Submodules: adding and updating</title>
+</head>
+<body data-pagefind-body id="135" data-pagefind-filter="site:Unknown">
+<h1>Submodules: adding and updating</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/submodules-adding-and-updating" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+What submodules are A submodule is a Git repository nested inside another. The parent repo records the submodule&apos;s URL and a specific commit SHA, so anyone cloning the parent can fetch the exact code that was tested together. Use submodules when you want to vendor a dependency at a pinned commit while preserving its independent history. Adding a submodule git submodule add https://github.com/example/lib third_party/lib git commit -m &quot;Add lib submodule&quot; This creates a .gitmodules file recording the path and URL, and stages a gitlink (a special tree entry pointing at a specific commit). Cloning a project with submodules git clone --recurse-submodules https://github.com/you/parent # or, after a plain clone: git submodule update --init --recursive Set submodule.recurse = true globally so commands like git pull and git checkout automatically update submodules. Updating to a new submodule commit cd third_party/lib git fetch git checkout v2.0.0 cd ../.. git add third_party/lib git commit -m &quot;Bump lib to v2.0.0&quot; The parent commit now references the new submodule SHA. Use git submodule update --remote to pull the latest commit on the submodule&apos;s tracked branch (default is the remote HEAD; configure with submodule.&lt;name&gt;.branch). Diff and status git diff --submodule=log git submodule status git submodule summary The --submodule=log form shows the commit log of submodule changes inline. Foreach Run a command in every submodule: git submodule foreach &apos;git fetch --all&apos; git submodule foreach --recursive &apos;git checkout main &amp;&amp; git pull&apos; Common mistakes Forgetting --init on first clone leaves submodule directories empty. Editing inside a submodule and committing in the parent without pushing the submodule first leaves collaborators with a parent referencing an unreachable SHA. Always push the submodule, then push the parent. Set push.recurseSubmodules = on-demand to enforce this. Branch tracking gotcha Submodules check out a detached HEAD at the recorded SHA. Edits there are not on a branch by default. Before changing files, git checkout a branch inside the submodule. Related See &quot;Submodules: common problems and solutions&quot; for recovery, and &quot;Subtrees: a simpler alternative to submodules&quot; if pinned dependencies feel too heavy.
+</body>
+</html>

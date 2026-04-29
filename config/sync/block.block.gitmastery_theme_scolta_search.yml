@@ -1,0 +1,20 @@
+uuid: dfe07224-d399-452e-b900-de1e3abbcead
+langcode: en
+status: false
+dependencies:
+  module:
+    - scolta
+  theme:
+    - gitmastery_theme
+id: gitmastery_theme_scolta_search
+theme: gitmastery_theme
+region: header
+weight: -20
+provider: null
+plugin: scolta_search
+settings:
+  id: scolta_search
+  label: 'Scolta Search'
+  label_display: '0'
+  provider: scolta
+visibility: {  }

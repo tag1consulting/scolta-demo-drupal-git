@@ -9,7 +9,10 @@
         "drupal/core-project-message": "^11",
         "drupal/core-recommended": "^11",
         "drupal/pathauto": "^1.12",
-        "drush/drush": "^13"
+        "drupal/search_api": "^1.0",
+        "drush/drush": "^13",
+        "tag1/scolta-drupal": "@dev",
+        "tag1/scolta-php": "@dev"
     },
     "require-dev": {
         "drupal/core-dev": "^11"
@@ -17,13 +20,21 @@
     "conflict": {
         "drupal/drupal": "*"
     },
-    "repositories": [
-        {
+    "repositories": {
+        "scolta-php": {
+            "type": "path",
+            "url": "/mnt/packages/scolta-php"
+        },
+        "scolta-drupal": {
+            "type": "path",
+            "url": "/mnt/packages/scolta-drupal"
+        },
+        "drupal": {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
         }
-    ],
-    "minimum-stability": "stable",
+    },
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
         "allow-plugins": {

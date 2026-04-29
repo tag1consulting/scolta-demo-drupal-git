@@ -1,0 +1,11 @@
+uuid: 55df9d67-b8f3-4eb4-b8eb-3404326a925b
+langcode: en
+status: true
+dependencies:
+  module:
+    - scolta
+id: gitmastery
+name: 'GitMastery Scolta'
+description: ''
+backend: scolta_pagefind
+backend_config: {  }

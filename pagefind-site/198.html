@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Repository size analysis: git count-objects and git sizer</title>
+</head>
+<body data-pagefind-body id="198" data-pagefind-filter="site:Unknown">
+<h1>Repository size analysis: git count-objects and git sizer</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/repository-size-analysis-git-count-objects-and-git-sizer" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+Knowing your weight Before optimizing, measure. Git ships git count-objects for basic stats; the third-party git-sizer from GitHub gives a deeper analysis with thresholds for trouble. Together they tell you whether your repo needs LFS, partial clone, or rewrite. git count-objects git count-objects -v git count-objects -vH # human-readable git count-objects --human-readable Output explains: count of loose objects, size, in-pack, packs, garbage, prune-packable. Loose object count over a few thousand triggers auto-gc. git-sizer Install: brew install git-sizer or download a binary. Run from any clone: git-sizer git-sizer --verbose git-sizer --no-progress --threshold 1 It analyzes commits, trees, blobs, references, and reports sizes plus warnings (e.g., &quot;1 file with 800MB, consider Git LFS&quot;). Sample insights Maximum number of files in a tree: warns above 100k. Maximum blob size: warns above 50MB. Total size of all commits: tracks growth. Maximum tag depth: detects pathological tag chains. Total reachable objects: indicates clone time. Finding big files git rev-list --objects --all | \ git cat-file --batch-check=&apos;%(objecttype) %(objectname) %(objectsize:disk) %(rest)&apos; | \ awk &apos;$1==&quot;blob&quot; {print $3, $4}&apos; | sort -rn | head This pipeline finds the largest blobs in history. Combine with git log --all --find-object=&lt;sha&gt; to identify when each was introduced. Action items by finding Big blobs: migrate to Git LFS or rewrite history with filter-repo. Many small files: enable feature.manyFiles, sparse checkout. Many refs: enable protocol v2; consider reftable. Slow walks: write commit-graph with Bloom filters. Slow lookups: enable MIDX with bitmaps. Common mistakes Looking only at .git size on disk — packed objects share bytes via deltas, so on-disk size can be misleading. Use git-sizer&apos;s logical sizes. Confusing reachable size with total: garbage objects inflate disk but not clone bandwidth. Tracking growth git-sizer --json &gt; sizer-$(date +%Y%m%d).json diff &lt;(jq . sizer-old.json) &lt;(jq . sizer-new.json) Related See &quot;Git garbage collection: gc, prune, and pack-refs&quot;, &quot;filter-repo: rewriting history safely&quot;, and &quot;Recovery and repair of corrupt repositories&quot;.
+</body>
+</html>

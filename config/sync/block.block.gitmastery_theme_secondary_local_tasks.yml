@@ -1,6 +1,6 @@
 uuid: 10a2a423-b841-4b98-9729-dd0358f5497f
 langcode: en
-status: true
+status: false
 dependencies:
   theme:
     - gitmastery_theme

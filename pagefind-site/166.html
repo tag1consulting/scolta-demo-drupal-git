@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sparse checkout: working with subsets of a large repo</title>
+</head>
+<body data-pagefind-body id="166" data-pagefind-filter="site:Unknown">
+<h1>Sparse checkout: working with subsets of a large repo</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/sparse-checkout-working-subsets-large-repo" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+Why sparse Sparse checkout populates only a subset of a repo&apos;s working tree, while keeping all metadata and history. For monorepos, this can mean checking out 1% of files and ignoring the other 99%, drastically speeding up git status, IDE indexing, and disk usage. Cone mode Modern Git (2.25+) introduces &quot;cone mode&quot; which restricts patterns to whole directories rather than arbitrary globs, in exchange for far better performance. git sparse-checkout init --cone git sparse-checkout set apps/web libs/shared git sparse-checkout add apps/admin git sparse-checkout list The cone covers all files at the root and inside the listed directories. Non-cone mode For arbitrary patterns, omit --cone and edit .git/info/sparse-checkout directly. Useful for include/exclude patterns: git sparse-checkout init cat &gt; .git/info/sparse-checkout &lt;&lt;&apos;EOF&apos; /* !/build/ !/legacy/ EOF git read-tree -m -u HEAD Cloning sparse git clone --filter=blob:none --no-checkout https://example.com/big.git cd big git sparse-checkout init --cone git sparse-checkout set apps/web git checkout main Combined with partial clone (--filter=blob:none), you fetch only the blobs you need on demand. See &quot;Partial clone: promise and promisor remotes&quot;. Checking the index Files outside the sparse cone are marked with skip-worktree in the index: git ls-files -t | head git update-index --skip-worktree path git update-index --no-skip-worktree path Disabling git sparse-checkout disable Restores the full working tree. Common mistakes Editing files outside the cone — they may exist if previously checked out but are not tracked by sparse mode; commit unexpected behavior. Use cone mode unless patterns truly require it; non-cone is much slower. Forgetting that git add warns when you stage a path outside the sparse set unless core.sparseCheckoutCone=true is set. Sparse index Pair sparse checkout with the sparse index to skip recording the excluded paths in the index entirely: git sparse-checkout init --cone --sparse-index git config index.sparse true See &quot;The sparse index: operating without a full index&quot;. Related See &quot;Sparse checkout for monorepos&quot; and &quot;Partial clone: promise and promisor remotes&quot;.
+</body>
+</html>

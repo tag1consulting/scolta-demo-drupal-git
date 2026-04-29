@@ -1,0 +1,40 @@
+uuid: dc4d1bfe-1711-4cec-9336-d38c9b396558
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.comparison.body
+    - field.field.node.comparison.field_compared_systems
+    - field.field.node.comparison.field_feature_table
+    - field.field.node.comparison.field_section
+    - field.field.node.comparison.field_verdict
+    - node.type.comparison
+  module:
+    - text
+    - user
+id: node.comparison.teaser
+targetEntityType: node
+bundle: comparison
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_compared_systems: true
+  field_feature_table: true
+  field_section: true
+  field_verdict: true
+  langcode: true
+  search_api_excerpt: true

@@ -1,0 +1,40 @@
+uuid: 8562915b-85ef-4287-9a63-56b3ab6fc762
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.tutorial.body
+    - field.field.node.tutorial.field_difficulty
+    - field.field.node.tutorial.field_estimated_time
+    - field.field.node.tutorial.field_prerequisites
+    - field.field.node.tutorial.field_section
+    - node.type.tutorial
+  module:
+    - text
+    - user
+id: node.tutorial.teaser
+targetEntityType: node
+bundle: tutorial
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_difficulty: true
+  field_estimated_time: true
+  field_prerequisites: true
+  field_section: true
+  langcode: true
+  search_api_excerpt: true

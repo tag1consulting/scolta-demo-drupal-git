@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Three-way diff and conflict resolution strategies</title>
+</head>
+<body data-pagefind-body id="157" data-pagefind-filter="site:Unknown">
+<h1>Three-way diff and conflict resolution strategies</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/three-way-diff-and-conflict-resolution-strategies" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+What is three-way Two-way diff shows what changed between two versions. Three-way diff also considers the common ancestor, letting Git decide whether a region was changed by one side, the other, or both. Three-way is the foundation of merging. Inspecting a conflict During a merge, files with conflicts contain markers: &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD our version ======= their version &gt;&gt;&gt;&gt;&gt;&gt;&gt; feature Show all three sides, including the ancestor: git config merge.conflictStyle diff3 # or zdiff3 (Git 2.35+) git checkout --conflict=diff3 path/to/file zdiff3 additionally compresses common context for cleaner output. Index stages The index holds three stages during conflict: git ls-files -u git show :1:path # ancestor git show :2:path # ours git show :3:path # theirs Strategies Resolve by selecting a side: git checkout --ours path/to/file git checkout --theirs path/to/file git checkout --merge path/to/file # remerge with markers Or by remerging with a different option: git merge -X theirs feature git merge -X ignore-all-space feature git merge -X renormalize feature Mergetool git config merge.tool meld # or vimdiff, kdiff3, opendiff, etc. git mergetool The tool opens with three or four panes (LOCAL, BASE, REMOTE, MERGED) so you can pick changes by hunk. Recursive ancestor (ort) When two branches share multiple merge bases (criss-cross merges), the ort strategy (default since Git 2.34) virtually merges the bases first to compute a synthesized ancestor. This dramatically reduces spurious conflicts. Common mistakes Assuming the ancestor in conflict markers matches your previous commit — it&apos;s the merge base, often well in the past. Resolving conflicts by deleting both sides; the marker style hides this from review. Always read the ancestor (use diff3) to understand intent. Forgetting to git add after editing a conflicting file leaves it unmerged in the index. Replay with rerere Once you resolve, rerere can replay the same resolution next time. See &quot;Rerere: automatic conflict resolution reuse&quot;. Related See &quot;Merge conflict resolution in depth&quot; and &quot;Custom merge strategies and drivers&quot;.
+</body>
+</html>

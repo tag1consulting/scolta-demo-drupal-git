@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fsmonitor daemon mode (Git 2.36+)</title>
+</head>
+<body data-pagefind-body id="187" data-pagefind-filter="site:Unknown">
+<h1>Fsmonitor daemon mode (Git 2.36+)</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/fsmonitor-daemon-mode-git-236" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+The built-in daemon Git 2.36 introduced a built-in fsmonitor daemon, eliminating the need for external services like Watchman. It runs as git fsmonitor--daemon, listens to OS file events, and answers Git&apos;s queries with the list of changed paths since a token timestamp. Lifecycle git config core.fsmonitor true git status # daemon auto-starts git fsmonitor--daemon status git fsmonitor--daemon stop git fsmonitor--daemon run # foreground, for debugging The daemon is per-repo, started lazily, and exits if idle for too long. How it integrates When core.fsmonitor=true, Git asks the daemon for changed paths. The daemon responds with a delta since the previous query token; Git then only re-stats those paths. The index records the last fsmonitor token in its FSMN extension. Verifying speedup time git -c core.fsmonitor=false status time git -c core.fsmonitor=true status GIT_TRACE2_PERF=1 git status 2&gt;&amp;1 | grep fsmonitor Trace lines like fsmonitor:read show how the daemon answered. Resource use The daemon holds OS file watches; on macOS this is essentially free, on Linux it consumes inotify slots. For huge trees raise the limit: sudo sysctl fs.inotify.max_user_watches=524288 sudo sysctl fs.inotify.max_user_instances=8192 Multiple worktrees Each worktree gets its own daemon. Stopping the main daemon does not affect worktrees. Background maintenance keeps them all coherent. Logging Logs land at .git/fsmonitor--daemon.log when started in debug. For production, run with default config and check the daemon status when issues arise. Common mistakes Running on networked filesystems where change events are unreliable (NFS, SMB) — the daemon refuses or returns inconsistent results; disable in that case. Forgetting to restart the daemon after upgrading Git: git fsmonitor--daemon stop then any subsequent Git command relaunches it. Mixing the built-in daemon with Watchman; pick one. Watchman vs built-in The built-in daemon is the recommended default. Watchman remains useful in environments that already deploy it for other tooling (e.g., Mercurial), but for Git alone the built-in is simpler. Related See &quot;Fsmonitor: faster working tree queries&quot; and &quot;Git in a monorepo&quot;.
+</body>
+</html>

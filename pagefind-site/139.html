@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Removing sensitive data from history</title>
+</head>
+<body data-pagefind-body id="139" data-pagefind-filter="site:Unknown">
+<h1>Removing sensitive data from history</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/removing-sensitive-data-history" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+Incident response You committed an API key, password, or private key. Removing it from the latest commit is not enough — Git keeps the file in every previous commit until you rewrite history. This page walks through the full incident response. Step 1: rotate immediately Before touching the repo, revoke the credential. Assume any pushed history has already been mirrored, scraped, or cached by GitHub&apos;s archive program. Rotating is the only true fix; rewriting just slows attackers. Step 2: rewrite history with filter-repo git clone --mirror git@github.com:org/repo.git repo-mirror cd repo-mirror git filter-repo --path config/secrets.yml --invert-paths For pattern-based removal across many files (e.g., AWS keys), use a replacements file: cat &gt; replace.txt &lt;&lt;&apos;EOF&apos; regex:AKIA[0-9A-Z]{16}==&gt;REDACTED literal:hunter2==&gt;REDACTED EOF git filter-repo --replace-text replace.txt Step 3: force-push git push --force --all git push --force --tags Coordinate with collaborators: every clone they hold contains the secret. They must reclone or rebase. Old PRs and forks may still expose the data; on GitHub, contact support to purge cached views. Step 4: prune local objects Locally, expire reflogs and run aggressive gc to drop the unreachable blobs: git reflog expire --expire=now --all git gc --prune=now --aggressive Detecting secrets early Prevention beats cleanup. Install a pre-commit hook that scans staged content with a tool like gitleaks or trufflehog: #!/usr/bin/env bash gitleaks protect --staged --redact || exit 1 See &quot;Git hooks: pre-commit, prepare-commit-msg, commit-msg&quot; for installation patterns. Common mistakes Believing a force-push is enough — caches, forks, mirrors, and team clones still hold the data. Skipping rotation. Using git filter-branch, which is deprecated and slow; use filter-repo. Forgetting tags: secrets often live in tagged releases too. Audit After the rewrite, search the rewritten history to confirm: git log -p --all -S &quot;AKIA&quot; git grep &quot;hunter2&quot; $(git rev-list --all) Related See &quot;filter-repo: rewriting history safely&quot; for the underlying tool, and &quot;GPG signing commits and tags&quot; for proving authorship after a rewrite.
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Git am: applying mailbox patches</title>
+</head>
+<body data-pagefind-body id="160" data-pagefind-filter="site:Unknown">
+<h1>Git am: applying mailbox patches</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/git-am-applying-mailbox-patches" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+The mailbox tradition git am applies patches in mbox format: the format used by mailing-list-driven projects like the Linux kernel and Git itself. Each mbox entry contains a patch plus its commit metadata (author, subject, body), so applying preserves authorship. Basic apply git am 0001-feature.patch git am out/*.patch git am --3way out/*.patch # try three-way merge on conflict git am --keep-cr # preserve carriage returns If applying fails, the operation pauses. You can --abort, --skip, or resolve and --continue. From mail clients Most mail clients can save messages as mbox. Many maintainers receive patches via mailing list and feed them directly: cat /var/mail/inbox | git am Signed-off-by Convention requires a Signed-off-by trailer for each accepted patch. Add it during apply: git am --signoff out/*.patch git config format.signOff true # always include on format-patch Direct from URL curl -sL https://lore.kernel.org/.../t.mbox.gz | gunzip | git am b4 am https://lore.kernel.org/... # fancy maintainer tool b4 is a separate tool that fetches threaded patches and applies in order, recommended for kernel-style workflows. Reset behavior If git am hits a conflict, it leaves you mid-apply. Recover: git am --abort # restore pre-am state git am --skip # skip this patch, move to next git am --continue # after editing files Whitespace handling git am --whitespace=warn out/*.patch git am --whitespace=fix out/*.patch git am --ignore-whitespace out/*.patch Common mistakes Applying patches in the wrong order — mbox files are usually pre-numbered (0001-, 0002-); preserve order. Forgetting --3way when the patch was generated against a different base. Mixed line endings: --keep-cr or pre-normalization fixes most cases. Reapplying a patch that was already applied silently no-ops or conflicts. Related See &quot;Generating and applying patches&quot; and &quot;Maintaining a patch series with git format-patch&quot;.
+</body>
+</html>

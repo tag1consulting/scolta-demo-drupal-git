@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>The ORIG_HEAD, FETCH_HEAD, and other special refs</title>
+</head>
+<body data-pagefind-body id="156" data-pagefind-filter="site:Unknown">
+<h1>The ORIG_HEAD, FETCH_HEAD, and other special refs</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/orighead-fetchhead-and-other-special-refs" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+The unsung pseudo-refs Beyond HEAD, Git maintains a small zoo of automatically-updated refs that record what just happened. Knowing them turns &quot;I deleted my work&quot; into a one-line recovery. HEAD Points to the current branch (e.g., ref: refs/heads/main) or, when detached, to a commit SHA directly. git symbolic-ref HEAD shows which. ORIG_HEAD Set by destructive operations (merge, rebase, reset, am) to the previous tip. The classic recovery from a botched merge or reset: git reset --hard ORIG_HEAD FETCH_HEAD Updated by git fetch with the tip(s) of refs just fetched. Each line is &lt;sha&gt;\t[not-for-merge]\t&lt;branch description&gt;. Use it for a one-shot inspect: git fetch origin git log HEAD..FETCH_HEAD # what would a pull bring in? git diff HEAD FETCH_HEAD -- src/ MERGE_HEAD and CHERRY_PICK_HEAD Present only during a merge or cherry-pick in progress. Indicate the commit being merged in. Their existence is how Git knows the working tree is mid-operation. cat .git/MERGE_HEAD # exists during merge git rev-parse --verify MERGE_HEAD &amp;&amp; echo &quot;merge in progress&quot; REVERT_HEAD, BISECT_* Similar markers exist for revert (REVERT_HEAD), bisect (BISECT_LOG, BISECT_START), rebase (REBASE_HEAD in modern Git), and AM (AM_HEAD). Reflog selectors You can also reach the previous state via the reflog regardless of these refs: git reset --hard HEAD@{1} git checkout @{-1} # previous branch git checkout - # also previous branch (alias) The @{N} notation indexes the ref&apos;s reflog, distinct from HEAD~N which walks ancestry. Common mistakes Conflating ORIG_HEAD with the reflog — ORIG_HEAD is overwritten on the next destructive op, so chaining several can lose earlier ones. Use the reflog for deeper history. Misreading FETCH_HEAD: only the first line is the merge target unless you fetched multiple refspecs. Practical recovery flow git reflog # find the lost state git branch rescue HEAD@{14} # bookmark it git reset --hard rescue # restore Related See &quot;Git internals: references and the reflog&quot;.
+</body>
+</html>

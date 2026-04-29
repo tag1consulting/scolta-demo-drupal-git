@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>The git log --all --graph one-liner</title>
+</head>
+<body data-pagefind-body id="239" data-pagefind-filter="site:Unknown">
+<h1>The git log --all --graph one-liner</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/tips/git-log-all-graph-one-liner" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+The command everyone copies If you have ever Googled &quot;pretty git log&quot;, you have probably copied a variation of this command: git log --all --graph --decorate --oneline It draws an ASCII graph of all branches and tags, one commit per line, decorated with reference names. It is the single most useful read-only Git command. Anatomy --all - include every branch and tag, not just HEAD&apos;s ancestry. --graph - draw the parent/child graph in ASCII. --decorate - annotate commits with branch and tag names. --oneline - shorthand for --pretty=oneline --abbrev-commit. Better formatting For colour and a richer pretty format: git log --all --graph \ --pretty=format:&apos;%C(yellow)%h%Creset %C(cyan)%an%Creset %s %C(green)(%cr)%Creset%C(red)%d%Creset&apos; \ --abbrev-commit Yellow short SHA, cyan author, plain subject, green relative date, red refs. Make it an alias git config --global alias.lg &quot;log --all --graph --pretty=format:&apos;%C(yellow)%h%Creset %C(cyan)%an%Creset %s %C(green)(%cr)%Creset%C(red)%d%Creset&apos; --abbrev-commit&quot; Now git lg works everywhere. Filtering git lg -20 # last 20 across all branches git lg --since=&apos;2 weeks ago&apos; git lg --author=&apos;Jane&apos; git lg --grep=&apos;OAuth&apos; git lg -- src/checkout.js # only commits touching this file First-parent only For the trunk-only view (skipping merged feature branches&apos; interiors): git log --first-parent --oneline main Useful for release notes - one commit per merged feature, no internal branch noise. The full graph for a feature git log --graph --boundary main...feature/oauth ... shows commits reachable from either ref but not both - the symmetric difference. --boundary includes merge bases as outline commits. Live graph viewers Beyond the CLI, tig, gitk, GitHub&apos;s network graph, GitLens, GitKraken, and Sublime Merge all visualise the same graph. Use the CLI to grok structure quickly; reach for a GUI when the graph gets dense. tig --all gitk --all Performance On very large repos, --all is expensive. Combine with -n to limit: git log --all --graph --oneline -n 100 The teaching aid When pairing or onboarding, &quot;git lg&quot; is the fastest way to convey the actual shape of a repo&apos;s history. Long-running branches, merge points, abandoned experiments - all visible in seconds. Memorise the alias; share it.
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sparse checkout for monorepos</title>
+</head>
+<body data-pagefind-body id="181" data-pagefind-filter="site:Unknown">
+<h1>Sparse checkout for monorepos</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/sparse-checkout-monorepos" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+The monorepo working set In a monorepo, individual developers usually touch a small subset — one or two apps, a handful of libraries. Sparse checkout populates only those paths in the working tree, leaving the rest as skip-worktree entries in the index. The result: faster git status, smaller IDE indexes, less disk. Cone mode setup git sparse-checkout init --cone --sparse-index git sparse-checkout set apps/web libs/ui libs/api git sparse-checkout add apps/admin git sparse-checkout list Cone mode restricts patterns to whole directories — much faster than non-cone arbitrary globs. Combined with partial clone git clone --filter=blob:none --sparse https://example.com/big.git cd big git sparse-checkout init --cone --sparse-index git sparse-checkout set apps/web Now you fetch metadata for the whole repo but blobs only for paths inside the cone, on demand. Disk usage on a multi-gigabyte monorepo can drop 10-100x. Reconfiguring git sparse-checkout reapply git sparse-checkout disable # full checkout reapply updates the working tree after editing the cone — useful in scripts that compute the cone from a project list. CI usage For path-scoped CI jobs, sparse-checkout cuts checkout time: git clone --no-checkout --filter=blob:none &quot;$REPO_URL&quot; . git sparse-checkout init --cone --sparse-index git sparse-checkout set &quot;$AFFECTED_DIR&quot; git checkout main Editor and IDE integration Most editors honor sparse checkout transparently — files outside the cone simply do not exist on disk. VS Code, JetBrains IDEs, and Vim handle this correctly. For LSP servers that recursively scan the workspace, sparse checkout is a major win. Auditing git sparse-checkout list git ls-files -t | head # &apos;S&apos; = skip-worktree git update-index --no-skip-worktree path/file du -sh . # shrunk working tree Common mistakes Using non-cone mode without good reason — performance suffers. Forgetting to enable sparse index (--sparse-index or git config index.sparse true). Editing a file outside the cone via your editor&apos;s &quot;open file&quot; dialog and being confused by the lack of staging — set git config core.sparseCheckoutCone true to get warnings. Related See &quot;Sparse checkout: working with subsets of a large repo&quot;, &quot;The sparse index: operating without a full index&quot;, and &quot;Git in a monorepo&quot;.
+</body>
+</html>

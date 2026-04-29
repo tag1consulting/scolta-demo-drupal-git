@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Submodules: common problems and solutions</title>
+</head>
+<body data-pagefind-body id="136" data-pagefind-filter="site:Unknown">
+<h1>Submodules: common problems and solutions</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/submodules-common-problems-and-solutions" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+The frustration list Submodules are powerful but trip new users repeatedly. This page catalogs the most common failures and the recipes that fix them. Empty submodule directory You cloned the parent but the subdir is empty. Initialize and update: git submodule update --init --recursive Detached HEAD edits lost You edited inside a submodule, committed, then ran git submodule update in the parent. The update reset the submodule to the recorded SHA, abandoning your work on a detached HEAD. Recover with git reflog inside the submodule. cd third_party/lib git reflog git checkout -b rescue HEAD@{1} Always create a branch inside a submodule before editing. URL changed upstream If the submodule&apos;s remote URL moves, edit .gitmodules, then sync local config: git submodule sync --recursive git submodule update --init --recursive Removing a submodule There is no single &quot;remove&quot; command. The clean recipe: git submodule deinit -f third_party/lib git rm -f third_party/lib rm -rf .git/modules/third_party/lib git commit -m &quot;Remove lib submodule&quot; Modified content but no diff Parent shows the submodule as modified though you did not edit it. The submodule HEAD has moved (a fetch, checkout, or build script). Either commit the new SHA in the parent or reset the submodule: git submodule update --recursive # restore recorded SHA # or git add third_party/lib &amp;&amp; git commit -m &quot;Bump lib&quot; Push order matters If you commit the parent referencing a SHA you have not pushed in the submodule, collaborators cannot resolve the reference. Enforce safety: git config --global push.recurseSubmodules on-demand Shallow submodules For CI, use shallow clones to save time: git submodule update --init --recursive --depth 1 Common mistakes Treating submodules like normal subdirectories — they are not, every Git command stops at the boundary unless you pass --recurse-submodules. Mixing branch-tracking submodules with pinned-SHA workflows leads to confusion; pick one model per project. Forgetting that git status in the parent only summarizes submodule state — run it inside the submodule for details. Related See &quot;Submodules: adding and updating&quot; for the basics, and &quot;Subtrees: a simpler alternative to submodules&quot; when the pain outweighs the benefit.
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Commit message best practices (Why, not What)</title>
+</head>
+<body data-pagefind-body id="203" data-pagefind-filter="site:Unknown">
+<h1>Commit message best practices (Why, not What)</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/tips/commit-message-best-practices-why-not-what" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+The diff already tells you what A commit message that says &quot;Updated user controller&quot; is wasted bytes - git diff already shows the user controller was updated. The valuable part of a commit message is the why: what problem does this solve, what alternatives were considered, what subtle assumption is the reader missing? The seven-rule format Tim Pope&apos;s classic seven rules still hold up: Separate subject from body with a blank line. Limit the subject line to 50 characters. Capitalise the subject. Do not end the subject with a period. Use the imperative mood (&quot;Fix bug&quot;, not &quot;Fixed bug&quot;). Wrap the body at 72 characters. Use the body to explain what and why, not how. An example git commit -m &quot;Reject negative quantities in checkout Customers were able to submit negative quantities by editing the DOM, leading to credits being applied to the order total. We add server-side validation in CheckoutValidator because client-side checks alone are insufficient against scripted clients. The validator throws InvalidQuantityException, which the global handler converts to a 400 response. Existing tests for zero and decimal quantities continue to pass.&quot; Conventional Commits For projects that automate changelogs and version bumps, the Conventional Commits standard adds a structured prefix: git commit -m &quot;feat(checkout): reject negative quantities&quot; git commit -m &quot;fix(auth): handle expired refresh tokens&quot; git commit -m &quot;docs(readme): clarify install steps&quot; Tooling like semantic-release, standard-version, and changesets reads these prefixes to decide whether the next release is a major, minor, or patch bump. Templates make it automatic Configure a commit template so every git commit opens with a structured prompt: cat &gt; ~/.gitmessage
+</body>
+</html>

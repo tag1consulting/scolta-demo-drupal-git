@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Generating and applying patches</title>
+</head>
+<body data-pagefind-body id="159" data-pagefind-filter="site:Unknown">
+<h1>Generating and applying patches</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/generating-and-applying-patches" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+Why patches Patches are portable diffs you can email, paste in a ticket, or store as a file. They are how Linux kernel development works at scale and remain useful any time you need to share a change without push access to a shared remote. Creating with diff and apply git diff &gt; change.patch git diff main..feature &gt; series.patch git diff --staged &gt; staged.patch git apply change.patch git apply --check change.patch # dry run git apply --3way change.patch # use three-way on conflicts git apply alters only the working tree; it does not create commits. Creating with format-patch For one or more commits with full metadata (author, date, message): git format-patch -1 HEAD # last commit git format-patch main # all commits since main git format-patch -3 --cover-letter -o out/ # last 3 + cover letter Each output file is a .patch in mailbox format, ready to email or apply with git am. Applying with am git am 0001-fix.patch git am out/*.patch git am --3way out/*.patch git am --abort git am --skip git am creates real commits with original authorship preserved. See &quot;Git am: applying mailbox patches&quot; and &quot;Maintaining a patch series with git format-patch&quot;. Binary patches Default git diff elides binary changes. Force inclusion: git diff --binary &gt; with-binaries.patch git format-patch --binary -1 Stat-only or summary git diff --stat git format-patch --stat=200 -1 Common mistakes Generating with git diff when you needed metadata; format-patch is the right choice for shareable commits. Forgetting --binary when the change includes images. Applying with git apply when you wanted commits — use git am instead. Whitespace differences breaking apply: try git apply --whitespace=fix. Range diff for review When iterating on a patch series, compare versions: git range-diff main..v1 main..v2 See &quot;Git range-diff: comparing revision series&quot;. Related See &quot;Git am: applying mailbox patches&quot; and &quot;Maintaining a patch series with git format-patch&quot;.
+</body>
+</html>

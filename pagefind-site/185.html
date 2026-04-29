@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Scalar: batteries-included large repo management</title>
+</head>
+<body data-pagefind-body id="185" data-pagefind-filter="site:Unknown">
+<h1>Scalar: batteries-included large repo management</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/scalar-batteries-included-large-repo-management" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+What Scalar is Scalar (originally a Microsoft tool, bundled with Git in 2.38+) is a wrapper that applies the full performance stack — partial clone, sparse checkout, sparse index, fsmonitor, commit-graph, MIDX, geometric repack, background maintenance — with one command. It is the recommended starting point for cloning a large repository. Cloning scalar clone https://example.com/big.git cd big/src scalar list Note the src/ subdir — Scalar layers a directory above for its metadata. The actual working tree lives in src/. What Scalar configures --filter=blob:none partial clone. --sparse with cone mode and sparse index. core.fsmonitor=true. core.untrackedCache=true. Commit-graph with changed-path Bloom filters. Multi-pack-index with bitmaps. git maintenance start for background upkeep. feature.manyFiles=true. Registering an existing repo cd existing-big-repo scalar register scalar list scalar unregister Use this when you already cloned and want to retrofit Scalar&apos;s settings. register writes the config and starts maintenance. Diagnostics scalar diagnose scalar reconfigure diagnose bundles config, repo stats, and recent maintenance logs into a zip for support. reconfigure reapplies recommended settings, useful after Git upgrades. When to use Repos with millions of files. Repos with hundreds of GB of history. CI runners cloning large repos repeatedly (combined with cache). New team members onboarding to a big monorepo. When not to Small repos where the optimization stack is overkill. Repos that require the full working tree (build systems that scan everything). Servers that do not support partial clone or sparse upload. Common mistakes Treating Scalar as magic — when something breaks, you still need to understand the underlying features. Mixing manual git gc with Scalar&apos;s maintenance schedules. Forgetting that the working tree is src/, not the top of the Scalar enlistment. Related See &quot;Git in a monorepo&quot; and every Performance page — Scalar enables most of them.
+</body>
+</html>

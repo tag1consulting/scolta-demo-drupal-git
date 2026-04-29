@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Automatic bug bisection with git bisect</title>
+</head>
+<body data-pagefind-body id="133" data-pagefind-filter="site:Unknown">
+<h1>Automatic bug bisection with git bisect</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/automatic-bug-bisection-git-bisect" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+Binary search through history git bisect performs a binary search across commits to find the one that introduced a bug. Given a known-good and known-bad commit, Git checks out commits in the middle and asks you to test. Each answer halves the search space, so 1024 commits resolve in about 10 steps. Manual bisect session git bisect start git bisect bad # current commit is bad git bisect good v2.4.0 # this older tag was good # Git checks out the midpoint # Test the build, then: git bisect bad # or: git bisect good # Continue until Git names the first bad commit git bisect reset # return to the original branch Custom terms Sometimes &quot;good/bad&quot; is the wrong vocabulary — for example, when bisecting a performance regression you might prefer &quot;fast/slow&quot;: git bisect start --term-old fast --term-new slow git bisect slow git bisect fast v2.4.0 Skipping untestable commits If the checked-out commit cannot be tested (build broken, dependency missing), use git bisect skip. Git will pick a nearby commit and adjust. git bisect skip git bisect skip &lt;sha1&gt; &lt;sha2&gt; Visualizing At any time, see the remaining candidate set: git bisect visualize git bisect log &gt; bisect.log # save for replay git bisect replay bisect.log Narrowing the search If you suspect the regression lies in a particular subdirectory, restrict bisect to commits touching it: git bisect start -- src/parser/ Common mistakes Forgetting to mark the initial endpoints — Git cannot bisect without one good and one bad. Marking a commit incorrectly poisons the search; if you suspect this, git bisect log followed by editing and git bisect replay recovers. Building takes time on every step, so pair with --first-parent if your project relies heavily on merges and you only care about merge points. First-parent bisecting Since Git 2.29, --first-parent tells bisect to follow only the first parent of each merge, drastically reducing steps in projects that integrate features as merges: git bisect start --first-parent Related For automation, see &quot;Bisect with automated test scripts&quot;. When the offending commit is found, &quot;Cherry-picking strategies and pitfalls&quot; helps you fix forward, and &quot;Interactive rebase mastery&quot; helps reshape any quick-fix commits before review.
+</body>
+</html>

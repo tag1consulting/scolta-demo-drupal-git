@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Maintaining a patch series with git format-patch</title>
+</head>
+<body data-pagefind-body id="161" data-pagefind-filter="site:Unknown">
+<h1>Maintaining a patch series with git format-patch</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/maintaining-patch-series-git-format-patch" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+Series-driven development Many projects review patches by series, not by branch. You publish v1, get feedback, revise, send v2, repeat until merged. Git provides first-class tools for this loop. Generating a series git format-patch -o out/v1 main git format-patch -o out/v1 --cover-letter --thread main git format-patch -o out/v1 --subject-prefix=&apos;PATCH v1&apos; main Use --cover-letter to generate a 0000-cover-letter.patch you can edit with a series-wide intro. --thread wires Message-IDs together so mail clients display the series as a thread. Sending git send-email out/v1/*.patch \ --to=maintainer@example.com \ --cc=list@example.com Configure SMTP once in ~/.gitconfig: [sendemail] smtpserver = smtp.example.com smtpuser = you@example.com smtpencryption = tls smtpserverport = 587 Iteration After feedback, revise via git rebase -i with autosquash, then publish v2: git format-patch -o out/v2 --subject-prefix=&apos;PATCH v2&apos; \ --cover-letter --thread \ --in-reply-to=&lt;v1-message-id&gt; main Pre-fill the cover letter&apos;s diff between versions: git range-diff main..v1 main..HEAD Paste the output into the cover letter to show reviewers exactly what changed since v1. Reroll prefix git format-patch -v3 -o out/v3 main The -v3 shorthand sets the subject prefix to PATCH v3 automatically. Tracking acks When reviewers reply with Reviewed-by or Acked-by, fold those trailers into the commits: git interpret-trailers --in-place --trailer &apos;Reviewed-by: Alice &lt;a@x&gt;&apos; &lt;commit&gt; Common mistakes Forgetting --in-reply-to on rerolls — the new series fails to thread under the old. Skipping the cover letter when sending three or more patches; reviewers want context. Not running ./scripts/checkpatch.pl or equivalent before send. Sending without testing on the project&apos;s expected base; configure format.useAutoBase. Related See &quot;Git am: applying mailbox patches&quot;, &quot;Git range-diff: comparing revision series&quot;, and &quot;Generating and applying patches&quot;.
+</body>
+</html>

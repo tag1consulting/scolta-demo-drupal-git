@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Contributing to open source with Git</title>
+</head>
+<body data-pagefind-body id="169" data-pagefind-filter="site:Unknown">
+<h1>Contributing to open source with Git</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/contributing-open-source-git" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+The fork-and-PR pattern Most platforms expect this flow: fork the upstream repo, clone your fork, branch for the change, push, open a pull request. Git treats it as a triangular workflow with two remotes. Setup git clone git@github.com:you/project.git cd project git remote add upstream https://github.com/org/project.git git fetch upstream git checkout -b fix/typo upstream/main Branching off upstream/main rather than origin/main ensures you start from the canonical tip, not your possibly-stale fork. Keeping up to date git fetch upstream git rebase upstream/main git push --force-with-lease origin fix/typo --force-with-lease refuses to overwrite remote work you have not seen, a safer alternative to --force. Crafting commits Open-source projects expect clean history. Use small, well-described commits with imperative-mood subjects under 72 chars and bodies explaining &quot;why.&quot; Sign off with DCO when required: git commit -s -m &quot;fix(parser): handle empty input Reject empty buffer with InvalidInput rather than panicking. Adds a regression test in tests/parser/empty.rs. Closes #1234&quot; Mailing-list projects For projects like Linux, use git format-patch and git send-email. See &quot;Maintaining a patch series with git format-patch&quot;. Reviewing feedback Use fixup commits and autosquash: git commit --fixup=&lt;sha&gt; git rebase -i --autosquash upstream/main git push --force-with-lease Pair with git range-diff to show reviewers what changed since the last revision. See &quot;Git range-diff: comparing revision series&quot;. Sign-off and trailers git config --global format.signOff true git commit --amend --no-edit --trailer &apos;Reviewed-by: Alice &lt;a@x&gt;&apos; git interpret-trailers --in-place --trailer &apos;Cc: maintainers@list&apos; COMMIT_MSG Common mistakes Branching off your fork&apos;s main when it is months behind; always sync from upstream first. Force-pushing without --force-with-lease; you can clobber a reviewer&apos;s edits. Mixing unrelated changes in one PR — split via git rebase -i with edit verbs. Forgetting the project&apos;s CONTRIBUTING.md style guide. Related See &quot;Multiple remote workflows&quot;, &quot;Interactive rebase mastery&quot;, and &quot;GPG signing commits and tags&quot;.
+</body>
+</html>

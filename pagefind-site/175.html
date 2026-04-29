@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Multi-pack-index (MIDX): unified pack object lookup</title>
+</head>
+<body data-pagefind-body id="175" data-pagefind-filter="site:Unknown">
+<h1>Multi-pack-index (MIDX): unified pack object lookup</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/multi-pack-index-midx-unified-pack-object-lookup" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+The many-pack problem A repo with many packfiles must search each one to locate an object — a binary search per pack. With dozens or hundreds of packs (common in active repos using geometric repack), this O(packs × log objects) cost adds up. The multi-pack-index (MIDX) consolidates all pack indexes into one binary search, restoring O(log total objects). Writing git multi-pack-index write git multi-pack-index verify git multi-pack-index expire git multi-pack-index repack --batch-size=2g expire deletes packs whose objects are fully covered by other packs. repack creates new packs containing only the objects from the smallest existing packs, then expires them. Configuration git config core.multiPackIndex true git config maintenance.multi-pack-index.enabled true On by default in Git 2.30+ for many builds. MIDX bitmap (Git 2.34+) The MIDX file can also carry a reachability bitmap, accelerating clones and fetches at scale: git multi-pack-index write --bitmap git config repack.writeBitmaps true git config pack.writeBitmaps true See &quot;Reachability bitmaps for fast set operations&quot;. Geometric integration MIDX shines paired with geometric repack: many packs are normal, lookup stays fast, and only the smallest packs are repacked routinely. Without MIDX, accumulating packs degrades performance. Verification git multi-pack-index verify git fsck --multi-pack-index ls -la .git/objects/pack/multi-pack-index* The MIDX file lives at .git/objects/pack/multi-pack-index. Common mistakes Manually deleting pack files referenced by the MIDX; always use multi-pack-index expire. Skipping --bitmap on large repos that frequently clone or fetch over the network. Forgetting that MIDX is a maintenance task; let git maintenance start handle it. Performance impact On a repo with 50+ packs, object lookup time can drop 5-10x. Combined with bitmap and geometric repack, server-side fetch CPU drops dramatically — the GitHub and GitLab improvements over the past few years are largely from this stack. Related See &quot;Geometric repacking strategy&quot;, &quot;Reachability bitmaps for fast set operations&quot;, and &quot;Git internals: packfiles and delta compression&quot;.
+</body>
+</html>

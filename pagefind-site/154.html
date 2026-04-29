@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Grafts and replace refs</title>
+</head>
+<body data-pagefind-body id="154" data-pagefind-filter="site:Unknown">
+<h1>Grafts and replace refs</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/grafts-and-replace-refs" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+Editing history without rewriting it Sometimes you want to splice histories together (a converted Subversion import meeting a continuation, for example) without rewriting commits. Grafts and the refs/replace/ namespace let Git pretend the parent of one commit is a different commit, leaving the original objects untouched. Grafts (legacy) .git/info/grafts is a plaintext file: each line specifies a commit&apos;s parents. Git applies these overrides when traversing history. Grafts are deprecated in favor of replace refs because they are local-only and confusing. # .git/info/grafts &lt;child-sha&gt; &lt;new-parent-sha&gt; Replace refs Replace refs are real refs under refs/replace/. They map an &quot;original&quot; object SHA to a &quot;replacement&quot; object SHA. Unlike grafts, they can be pushed and shared. Most commands honor them automatically. git replace --graft &lt;child&gt; &lt;new-parent&gt; git replace --graft v3.0.0 v2.99.0 git replace --convert-graft-file git replace -d &lt;sha&gt; git replace -l --graft creates a replacement commit identical to the original except for the parents. Use case: stitch imports You imported old SVN history as a separate orphan branch, and the modern repo&apos;s first commit has no parents. Splice them: git replace --graft $(git rev-list --max-parents=0 main | head -1) svn-history-tip Now git log main walks all the way back through the SVN era. Sharing Push replace refs explicitly: git push origin &apos;refs/replace/*:refs/replace/*&apos; Collaborators fetching the same refspec see the same grafted view. Disabling temporarily git --no-replace-objects log GIT_NO_REPLACE_OBJECTS=1 git log Useful when you need the genuine, unspliced history for forensic checks. Common mistakes Confusing replace with rewrite — replace does not change object SHAs, so signatures remain valid but the &quot;real&quot; parent of a commit is not what you see. Forgetting to push replace refs means your join only exists locally. Grafts in .git/info/grafts are no longer recommended; convert them with git replace --convert-graft-file. Common with filter-repo If you want a permanent rewrite rather than a runtime view, use filter-repo to materialize the new history. See &quot;filter-repo: rewriting history safely&quot;. Related See &quot;Git internals: the object database&quot; and &quot;Git internals: references and the reflog&quot;.
+</body>
+</html>

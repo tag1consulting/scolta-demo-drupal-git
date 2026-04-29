@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Git archive and bundle for distribution</title>
+</head>
+<body data-pagefind-body id="164" data-pagefind-filter="site:Unknown">
+<h1>Git archive and bundle for distribution</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/git-archive-and-bundle-distribution" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+Two formats, two purposes git archive produces a tar or zip snapshot of a tree — code without history, perfect for releases. git bundle produces a portable transport file containing objects and refs — perfect for offline transfer of an entire repo or update. Archive examples git archive --format=tar.gz -o release-1.0.tar.gz v1.0.0 git archive --format=zip --prefix=myapp-1.0/ -o myapp-1.0.zip HEAD git archive --format=tar HEAD src/ | tar -xC /tmp/snapshot --prefix wraps the contents in a top-level directory, so extraction does not splatter into the current dir. Excluding files from archives Use .gitattributes: tests/ export-ignore .github/ export-ignore *.dev.json export-ignore And substitute placeholders into a release file with export-subst. See &quot;Gitattributes: line endings, exports, and encoding&quot;. Bundle for offline transfer git bundle create repo.bundle --all git bundle create incr.bundle main ^origin/main # only new commits git bundle verify repo.bundle git clone repo.bundle myrepo # clone from bundle git fetch repo.bundle main:imported # fetch into existing Bundles let you sneakernet repository updates across air-gapped networks. Use case: ship to embargoed customer Generate a bundle of the release branch and email or sftp it. The customer fetches from the bundle into their clone: git bundle create v1.2.bundle main --tags git fetch v1.2.bundle &apos;+refs/heads/*:refs/remotes/upstream/*&apos; &apos;+refs/tags/*:refs/tags/*&apos; Reproducible archives Default git archive embeds the commit time. For bit-identical builds across machines, set: git archive --format=tar.gz \ --output=src.tar.gz \ --prefix=src/ HEAD # or use git&apos;s reproducible flags + GNU tar --sort=name --mtime=... Common mistakes Confusing git archive (no history) with git bundle (full history). Forgetting --prefix producing a &quot;tarbomb.&quot; Generating bundles missing prerequisites: an incremental bundle requires the receiver to have the negation point&apos;s history, or the bundle is unusable. Related See &quot;Gitattributes: line endings, exports, and encoding&quot; and &quot;Ahead-of-time packfile building with git fast-export&quot;.
+</body>
+</html>

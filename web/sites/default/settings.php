@@ -900,3 +900,6 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev
 
 // GitMastery: Use version-controlled config sync directory.
 $settings['config_sync_directory'] = '../config/sync';
+
+// Private file system for Scolta Pagefind build artifacts.
+$settings['file_private_path'] = '/var/www/html/web/sites/default/private';

@@ -1,0 +1,38 @@
+uuid: bf888b1e-e1a5-4449-85b9-643c185510c4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.comparison.body
+    - field.field.node.comparison.field_compared_systems
+    - field.field.node.comparison.field_feature_table
+    - field.field.node.comparison.field_section
+    - field.field.node.comparison.field_verdict
+    - node.type.comparison
+  module:
+    - text
+    - user
+id: node.comparison.default
+targetEntityType: node
+bundle: comparison
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_compared_systems: true
+  field_feature_table: true
+  field_section: true
+  field_verdict: true
+  langcode: true
+  search_api_excerpt: true

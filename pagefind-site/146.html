@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Gitattributes: line endings, exports, and encoding</title>
+</head>
+<body data-pagefind-body id="146" data-pagefind-filter="site:Unknown">
+<h1>Gitattributes: line endings, exports, and encoding</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/gitattributes-line-endings-exports-and-encoding" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+What gitattributes does .gitattributes applies per-path settings: line endings, diff and merge drivers, export filters, encoding declarations, and merge behavior. Unlike .gitignore, attributes apply to tracked files and are honored by the entire team because the file is committed. Line endings The most common use. Tell Git to normalize text files in the repo to LF, while letting native checkouts on Windows convert to CRLF: # .gitattributes * text=auto *.sh text eol=lf *.bat text eol=crlf *.png binary After adding this file, run git add --renormalize . to fix existing files in the repo. core.autocrlf vs gitattributes core.autocrlf is a per-developer fallback. Gitattributes is authoritative and shared. Always prefer attributes for projects that span platforms. Export-ignore Exclude files from git archive tarballs (test fixtures, dev configs): tests/ export-ignore .github/ export-ignore .gitignore export-ignore Makefile export-ignore This keeps release tarballs lean. See &quot;Git archive and bundle for distribution&quot;. Export-subst Substitute Git format placeholders into files at archive time: VERSION export-subst Inside VERSION: $Format:%H %ci$. git archive writes the commit SHA and date. Working-tree encoding For source files in non-UTF-8 encodings (legacy codebases), declare working-tree encoding so Git stores in UTF-8 but checks out in the original encoding: *.cs working-tree-encoding=UTF-16LE-BOM *.txt working-tree-encoding=Shift_JIS Available since Git 2.21. Filter drivers Run a clean filter on staging and a smudge filter on checkout. Useful for keyword expansion, secret obfuscation, or content rewriting: [filter &quot;redact&quot;] clean = sed &apos;s/SECRET=.*/SECRET=***REDACTED***/&apos; smudge = cat *.env filter=redact Macros Group attributes into named bundles: [attr]docfile diff=markdown export-ignore README.md docfile Common mistakes Adding * text=auto without renormalizing leaves mixed endings in the repo. Forgetting that binary is a macro, not a property — it expands to -text -diff. Filter drivers must be installed on every clone; document this in your README. Related See &quot;Custom diff drivers with gitattributes&quot; and &quot;Custom merge strategies and drivers&quot;.
+</body>
+</html>

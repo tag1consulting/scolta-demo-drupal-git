@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Advanced stash usage</title>
+</head>
+<body data-pagefind-body id="165" data-pagefind-filter="site:Unknown">
+<h1>Advanced stash usage</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/advanced-stash-usage" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+Beyond git stash pop Stash is more capable than the basic save/pop you usually see. Used well, it is a personal scratchpad for context switches that beats committing WIP into the branch. Saving with intent git stash push -m &quot;WIP: parser refactor&quot; git stash push -m &quot;config tweaks&quot; -- src/config/ git stash push -k -m &quot;without staged&quot; # keep staged git stash push -u -m &quot;include untracked&quot; git stash push -a -m &quot;include ignored&quot; --keep-index stashes the working tree but leaves staged changes intact, useful when you want to verify a partial commit. Listing and inspecting git stash list git stash show stash@{2} # diffstat git stash show -p stash@{2} # full patch git diff stash@{0}^1 stash@{0} # diff against base Apply, pop, branch git stash apply # apply, keep on stash git stash pop # apply, drop git stash apply stash@{3} git stash branch fix-bug stash@{1} # branch off stash base, apply git stash branch is the cleanest way to recover from &quot;I stashed in the wrong branch.&quot; Partial stash Stash interactively, choosing hunks like git add -p: git stash push -p Conflict resolution Pop applies via merge; conflicts mark the file unmerged in the index. The stash entry is preserved unless pop succeeds, so you can: git stash apply # try again with a different branch git stash pop --index # try restoring the original staging Cleanup git stash drop stash@{4} git stash clear # nuke all git reflog show stash # auditing Use case: rebuild before review You&apos;re mid-feature when CI tells you a CI-only fix is needed. Stash, switch branches, fix, push, pop: git stash push -u -m &quot;feature WIP&quot; git checkout main &amp;&amp; git pull git switch -c ci-fix # fix + commit + push git checkout feature git stash pop Common mistakes Stashing with untracked files but no -u — those files stay in your tree and confuse subsequent operations. Treating stash as long-term storage; reflog expiry can prune unreachable stashes. Forgetting that pop can leave conflicts; check git status. Related See &quot;Worktrees: multiple checkouts of one repo&quot; for an alternative to stashing.
+</body>
+</html>

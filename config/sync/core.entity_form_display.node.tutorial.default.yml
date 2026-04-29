@@ -1,0 +1,85 @@
+uuid: 58260af2-2f35-4de3-804f-554fc7f3045e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.tutorial.body
+    - field.field.node.tutorial.field_difficulty
+    - field.field.node.tutorial.field_estimated_time
+    - field.field.node.tutorial.field_prerequisites
+    - field.field.node.tutorial.field_section
+    - node.type.tutorial
+  module:
+    - path
+    - text
+id: node.tutorial.default
+targetEntityType: node
+bundle: tutorial
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 121
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 120
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  field_difficulty: true
+  field_estimated_time: true
+  field_prerequisites: true
+  field_section: true
+  promote: true
+  sticky: true

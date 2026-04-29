@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Using git stash effectively</title>
+</head>
+<body data-pagefind-body id="211" data-pagefind-filter="site:Unknown">
+<h1>Using git stash effectively</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/tips/using-git-stash-effectively" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+What stash is for git stash shelves your uncommitted changes so you can return your working tree to a clean state, then bring them back later. It is the right tool when you need to switch context briefly - someone needs a hotfix, you want to pull main, you want to test a clean tree - without committing half-baked work. The basics git stash # stash tracked files git stash -u # include untracked files git stash -a # include untracked AND ignored files git stash push -m &quot;WIP login&quot; # stash with a message Listing and inspecting stashes: git stash list git stash show stash@{0} git stash show -p stash@{0} # full diff Restoring git stash pop # apply most recent stash and drop it git stash apply stash@{2} # apply specific stash, keep it git stash drop stash@{0} # delete a stash git stash clear # delete all stashes pop applies and removes; apply applies and keeps. If the stash applies cleanly, prefer pop. If you might need to apply elsewhere, apply. Partial stashing Patch mode lets you stash only some hunks: git stash push -p # Walks each hunk: y/n/q/a/d/s/e Stashing onto a different branch git stash branch new-branch stash@{0} This creates a new branch from the commit the stash was made on, applies the stash, and drops it. Indispensable when you realise mid-stash that the work belongs on a different branch. Common pitfalls Untracked files are not stashed by default - use -u. Stashes survive across branches; popping a stash from branch A onto branch B can produce conflicts. Stashes are local. They do not push, do not back up, and disappear if you delete the repo. git stash clear is irreversible (though dropped stashes survive in reflog briefly). When commits beat stashes For anything beyond a few minutes, prefer a WIP commit over a stash. Commits are easier to track, can be pushed for backup, and survive merges and rebases more cleanly. git add -A &amp;&amp; git commit -m &quot;WIP&quot; # later: git reset --soft HEAD^ Recovering lost stashes If you dropped a stash by accident, the reflog still has it for ~30 days: git fsck --no-reflog | awk &apos;/dangling commit/ {print $3}&apos; git stash apply &lt;sha&gt; Naming discipline Always pass -m with a description. Three days later, stash@{0}: WIP on main: a1b2c3d tells you nothing; stash@{0}: experimenting with retry logic tells you everything.
+</body>
+</html>

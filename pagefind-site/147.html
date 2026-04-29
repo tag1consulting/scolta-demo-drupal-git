@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>GPG signing commits and tags</title>
+</head>
+<body data-pagefind-body id="147" data-pagefind-filter="site:Unknown">
+<h1>GPG signing commits and tags</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/gpg-signing-commits-and-tags" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+Why sign A signed commit cryptographically attests &quot;this commit was authored by the holder of this key, unchanged since signing.&quot; Signatures defend against impersonation and tampering, and platforms like GitHub display a &quot;Verified&quot; badge when the signature matches a configured key. One-time setup gpg --full-generate-key # choose RSA 4096 or Ed25519 gpg --list-secret-keys --keyid-format=long git config --global user.signingkey 0xABCDEF1234567890 git config --global commit.gpgsign true git config --global tag.gpgsign true Export the public key and add it to GitHub/GitLab/Gitea: gpg --armor --export 0xABCDEF1234567890 Signing on demand git commit -S -m &quot;Important change&quot; git tag -s v1.0.0 -m &quot;Release 1.0.0&quot; Verify a single commit or all log entries: git log --show-signature git verify-commit &lt;sha&gt; git verify-tag v1.0.0 GPG agent and pinentry Set up gpg-agent with a long cache so you do not retype passphrases per commit: # ~/.gnupg/gpg-agent.conf default-cache-ttl 28800 max-cache-ttl 86400 pinentry-program /usr/local/bin/pinentry-mac Hardware keys YubiKey or similar tokens can hold the GPG signing key, requiring a touch per commit. After provisioning, ensure gpg --card-status recognizes the device. The flow is identical to software keys but with hardware-backed non-exportability. Smudge: WSL and SSH If you sign from WSL or over SSH, configure the agent forwarding correctly. Set GPG_TTY=$(tty) in your shell init so pinentry can prompt. Common mistakes Setting commit.gpgsign true without a working agent makes every git commit hang on a stalled pinentry. Test interactively first. Forgetting to publish your public key to the platform leaves &quot;Unverified&quot; badges. Keys expire; calendar a reminder. Rebases re-sign commits with the rebaser&apos;s key, not the original author&apos;s — preserve verification carefully on shared branches. Verify a remote push git push --signed Sends a signed certificate of the push intent — useful in regulated environments to prove who pushed what when. Related See &quot;SSH signing (Git 2.34+)&quot; for an easier alternative without GPG.
+</body>
+</html>

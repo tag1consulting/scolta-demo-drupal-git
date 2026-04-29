@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Protocol v2 for efficient fetch negotiation</title>
+</head>
+<body data-pagefind-body id="194" data-pagefind-filter="site:Unknown">
+<h1>Protocol v2 for efficient fetch negotiation</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/protocol-v2-efficient-fetch-negotiation" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+Why v2 Protocol v0/v1 sent the server&apos;s full ref advertisement at the start of every fetch — a payload proportional to the number of refs. On repos with tens of thousands of refs (releases, PRs, mirrors), this dominated transfer time. Protocol v2 (default in Git 2.26+) lets the client request specific refs by name, dropping the upfront cost dramatically. Verifying it is on GIT_TRACE_PACKET=1 git ls-remote origin 2&gt;&amp;1 | head -10 git config protocol.version 2 git config --global protocol.version 2 Look for version=2 in the trace. Some older servers still negotiate down to v0 or v1. Server requirements HTTP: Git 2.18+ on the server, with http.receivepack aware of v2. SSH: Git 2.18+ on both ends; for many providers, this is automatic. Some legacy hosts may need uploadpack.allowFilter=true and explicit v2 enablement. Capabilities v2 introduces capability negotiation. The client lists what it understands; the server responds with the intersection. Newer features (filter, ref-prefix, sideband) ride along. GIT_TRACE_PACKET=1 git fetch 2&gt;&amp;1 | grep -i &apos;capabilit\|fetch=&apos; Practical impact On Linux&apos;s repo (~50k refs), a fresh fetch over v0 spent 4-8 seconds in advertisement; v2 cuts this to under a second. On JS monorepos with auto-generated PR refs, the difference is even more pronounced. Sideband and progress v2 standardizes sideband-64k progress reporting. Disable for non-tty consumers like CI: git fetch --quiet git -c progress.delay=999 fetch Common mistakes Forcing protocol version 0 in old config files left from upgrades. Believing v2 helps with object transfer size — it primarily helps with negotiation overhead. Mixing v2 client with v0 server: works (negotiates down) but wastes the win. Combine with Negotiation algorithm: fetch.negotiationAlgorithm=skipping. Reachability bitmaps on the server. Ref filtering: fetch.refSpecs. Related See &quot;Wire protocol optimization: stateless-connect&quot; and &quot;Fetch and push over large repositories&quot;.
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Git internals: the index format</title>
+</head>
+<body data-pagefind-body id="153" data-pagefind-filter="site:Unknown">
+<h1>Git internals: the index format</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/git-internals-index-format" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+The staging area, demystified The index (a.k.a. cache, staging area) lives at .git/index as a binary file describing what the next commit will contain. It is not a tree — it is a flat sorted list of path entries with stat info, mode, and SHA. Operations like git add, git rm, and git mv update the index; git commit turns it into a tree object. Inspecting git ls-files --stage git ls-files --debug git diff --cached # index vs HEAD git diff # working tree vs index Index versions Git supports several index versions. Version 2 was historic; version 3 added skip-worktree (for sparse checkout); version 4 (default in 2.20+) prefix-compresses paths for big trees. Set with index.version: git config index.version 4 git update-index --index-version 4 Stat caching The index records device, inode, ctime, mtime, size for every entry. git status uses this to skip files whose stat info matches; only on stat mismatch does it read content. This is why huge repos benefit from core.fsmonitor (see &quot;Fsmonitor: faster working tree queries&quot;). Sparse index Large monorepos can shrink their index by representing whole directories as a single entry (a tree SHA) rather than every contained file. Enable with sparse-checkout in cone mode: git sparse-checkout init --cone git sparse-checkout set apps/web libs/shared git config core.sparseCheckoutCone true git config index.sparse true See &quot;The sparse index: operating without a full index&quot;. Three-way merging in the index During a conflicted merge, the index holds three stages per conflicting path: stage 1 (ancestor), 2 (ours), 3 (theirs). git ls-files -u # unmerged paths git checkout-index --stage=2 -- file git checkout-index --stage=3 -- file Common mistakes Believing git add stages files &quot;permanently&quot; — it stages a snapshot. Re-edit and re-add. Confusing index 0 (resolved) with stages 1/2/3 (conflicting). Hand-deleting .git/index is recoverable (git reset), but breaks any in-progress operation. Performance levers Large indexes are slow to read/write. Levers: index.version=4, core.untrackedCache=true, core.fsmonitor=true, sparse index, and feature.manyFiles=true which sets sensible defaults at once. Related See &quot;Configuring index.version for performance&quot; and &quot;Feature.manyFiles configuration&quot;.
+</body>
+</html>

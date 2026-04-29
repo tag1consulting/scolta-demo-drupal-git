@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Custom merge strategies and drivers</title>
+</head>
+<body data-pagefind-body id="144" data-pagefind-filter="site:Unknown">
+<h1>Custom merge strategies and drivers</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/custom-merge-strategies-and-drivers" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+Strategies vs drivers A merge strategy decides how Git combines two histories — ort (default since Git 2.34), recursive (legacy), resolve, octopus, and ours. A merge driver is per-file logic that runs when both sides have changed the same file. Choose the right tool for the right level. Selecting a strategy git merge -s ort feature git merge -s ours legacy-branch git merge -s octopus a b c d ours records a merge but discards the other side&apos;s content — useful when retiring a branch you no longer want to integrate. octopus merges multiple branches at once but refuses if any conflict, suiting integration &quot;ferry&quot; branches. Strategy options Pass options with -X: git merge -X theirs feature # prefer feature on conflict git merge -X ignore-all-space main git merge -X renormalize legacy renormalize applies clean/smudge filters before comparing, fixing merges across line-ending changes. Custom drivers Define a driver in .git/config or ~/.gitconfig: [merge &quot;ours-only&quot;] name = Always keep our version driver = true Wire it up in .gitattributes: CHANGELOG.md merge=ours-only *.lock merge=union The built-in union driver concatenates both sides&apos; lines instead of conflicting — perfect for append-only files like changelogs. Real-world driver: yarn.lock [merge &quot;yarn-lock&quot;] name = Re-run yarn install driver = &quot;yarn install --silent &amp;&amp; git add yarn.lock&quot; The driver receives the ancestor, ours, and theirs as arguments and must leave the merged content in the file at %A. Driver contract Driver scripts get placeholders: %O ancestor, %A ours (write result here), %B theirs, %P path, %L conflict marker size. Exit 0 for success, non-zero to leave a conflict for manual resolution. Common mistakes Forgetting that drivers must be installed on every clone — only .gitattributes is shared, not .git/config. Document setup in your README. Marking too many files merge=ours silently loses upstream fixes. Confusing the strategy -s ours (whole-merge) with the attribute merge=ours (per-file). Related See &quot;Custom diff drivers with gitattributes&quot;, &quot;Rerere: automatic conflict resolution reuse&quot;, and &quot;Merge conflict resolution in depth&quot;.
+</body>
+</html>

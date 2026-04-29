@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Changed-path Bloom filters in the commit-graph</title>
+</head>
+<body data-pagefind-body id="174" data-pagefind-filter="site:Unknown">
+<h1>Changed-path Bloom filters in the commit-graph</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/changed-path-bloom-filters-commit-graph" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+The path-restricted log problem git log -- path/to/file must, in principle, walk every commit, diff each against its parent, and emit those that touched path/to/file. On large repos this is dominated by tree comparisons. Changed-path Bloom filters (Git 2.27+) accelerate this dramatically by storing, for each commit, a probabilistic set of paths it touched. How Bloom filters work A Bloom filter is a small bitmap that returns &quot;definitely not in the set&quot; or &quot;probably in the set&quot; for membership queries. False positives are possible but never false negatives. For a path query, Git first asks the filter; only if the answer is &quot;probably yes&quot; does it perform the expensive tree diff. Enabling git commit-graph write --reachable --changed-paths git config commitGraph.changedPathsVersion 2 git maintenance run --task=commit-graph Version 2 (Git 2.39+) uses MurmurHash3 with case-insensitive normalization and is the recommended default. Version 1 is backward-compatible. Verifying GIT_TRACE2_PERF=1 git log -- src/foo.c 2&gt;&amp;1 | grep -i bloom git commit-graph verify The trace shows hit/miss counts. A well-tuned filter has &gt;95% true negatives, meaning Git skips the tree diff for the vast majority of commits. When it shines Long-lived monorepo with many commits that touch only a few files each. git log -- src/specific/dir queries. git blame on individual files (which uses similar machinery). When it does not help Glob/regex paths the filter cannot exact-match. Logs without a -- path argument — the filter only applies to path-restricted walks. Very small repos where the walk is already fast. Memory and disk Filters add roughly 8-12 bytes per commit to the commit-graph file. For a million-commit repo, expect 10MB extra. Set commitGraph.maxNewFilters (Git 2.34+) to throttle how many filters are computed per write, useful when first generating filters on a large repo. git config commitGraph.maxNewFilters 50000 Common mistakes Writing the graph without --changed-paths — filters are not added by default. Mixing v1 and v2 filters across teammates; let git maintenance upgrade them. Expecting filters to help unrestricted log; they do not. Related See &quot;The commit-graph: faster reachability queries&quot; and &quot;Background maintenance: git maintenance run/start/stop&quot;.
+</body>
+</html>

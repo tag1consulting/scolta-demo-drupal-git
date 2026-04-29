@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Git garbage collection: gc, prune, and pack-refs</title>
+</head>
+<body data-pagefind-body id="178" data-pagefind-filter="site:Unknown">
+<h1>Git garbage collection: gc, prune, and pack-refs</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/git-garbage-collection-gc-prune-and-pack-refs" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+What gc does git gc performs maintenance: repacks loose objects, prunes unreachable ones past the expiry window, packs loose refs into packed-refs, expires reflogs, and writes commit-graph and MIDX where configured. It runs automatically when certain thresholds are exceeded. Auto-trigger Git invokes gc --auto at the end of operations like commit, merge, rebase. The thresholds: [gc] auto = 6700 # loose objects before auto gc autoPackLimit = 50 # packs before consolidation autoDetach = true # run in background pruneExpire = 2.weeks.ago reflogExpire = 90.days reflogExpireUnreachable = 30.days Manual invocation git gc # standard git gc --auto # threshold-driven git gc --aggressive # heavy delta recompute git gc --prune=now # prune all unreachable now Pruning safely By default, gc only prunes objects unreachable for at least two weeks, protecting in-flight work. After a sensitive rewrite (e.g., removing secrets), force immediate pruning: git reflog expire --expire=now --all git gc --prune=now pack-refs Loose refs accumulate as files in .git/refs/. git pack-refs --all collapses them into .git/packed-refs for faster ref enumeration. Run by gc but you can run it standalone: git pack-refs --all git for-each-ref | wc -l ls .git/refs/heads | wc -l # often 0 after pack-refs Background scheduling Modern setups prefer git maintenance over auto-gc. It runs targeted tasks on cron/launchd/Task Scheduler: git maintenance start git maintenance run --task=gc git maintenance run --task=loose-objects git maintenance run --task=pack-refs Aggressive vs default --aggressive uses depth 250, window 250 — much higher than defaults (50/10). Smaller packs but hours of CPU on large repos. Reserve for occasional offline runs. Common mistakes Disabling auto-gc to &quot;save CPU&quot; and ending up with millions of loose objects. Running --prune=now while a colleague&apos;s git fetch writes new objects — race condition risk. Let gc run quietly. Mixing git gc with manual git repack; the maintenance command supersedes both. Related See &quot;Background maintenance: git maintenance run/start/stop&quot; and &quot;Geometric repacking strategy&quot;.
+</body>
+</html>

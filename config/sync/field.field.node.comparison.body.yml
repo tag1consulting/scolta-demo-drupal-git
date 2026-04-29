@@ -1,0 +1,24 @@
+uuid: 12bebb74-a924-4d43-a7d9-63895d4a4ee7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.comparison
+  module:
+    - text
+id: node.comparison.body
+field_name: body
+entity_type: node
+bundle: comparison
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary

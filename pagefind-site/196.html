@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Delta islands for pack efficiency</title>
+</head>
+<body data-pagefind-body id="196" data-pagefind-filter="site:Unknown">
+<h1>Delta islands for pack efficiency</h1>
+<p data-pagefind-meta="url:https://gitmastery.ddev.site/en/en/docs/delta-islands-pack-efficiency" hidden></p>
+<p data-pagefind-meta="date:2026-04-29" hidden></p>
+The cross-fork problem Forge servers (GitHub, GitLab) host many forks of a repo together. Naively, a single packfile delta-compresses across all forks — efficient on disk, but inefficient when serving a single fork: the server must decompress through unrelated objects to reconstruct what one client wants. Delta islands constrain delta chains so that each fork&apos;s chains stay within its own object set. Configuring islands [pack] island = refs/heads/main island = refs/heads/release/* island = refs/tags/* Each pack.island entry defines a regex over ref names. Objects reachable only from one island compute deltas against other objects in the same island, never crossing. Repacking with islands git repack -adf --window=250 --depth=50 The repack reads pack.island config and assigns objects to islands. The resulting pack is slightly larger on disk but dramatically cheaper to serve per fork. Use cases Self-hosted Gitea/GitLab/Forgejo with many forks. Internal mirrors that serve multiple internal repos from one underlying store. Backups that need to extract per-repo snapshots quickly. Server-only feature Delta islands matter on the server. As a client, you almost never configure them — your packs come pre-deltaified and you decompress what you fetch. Verifying git verify-pack -v .git/objects/pack/pack-*.idx | head GIT_TRACE2_PERF=1 git pack-objects --stdout --revs &lt; refs.txt &gt; out.pack Common mistakes Setting islands too coarsely (everything in one island) — no benefit. Setting them too finely (per-PR) — pack size balloons. Forgetting that islands only apply to fresh repacks; existing packs need -f to recompute. Pseudo-merge bitmaps Recent Git pairs delta islands with pseudo-merge bitmaps so that each island can answer reachability queries quickly. See &quot;Reachability bitmaps for fast set operations&quot;. Related See &quot;Geometric repacking strategy&quot;, &quot;Reachability bitmaps for fast set operations&quot;, and &quot;Git internals: packfiles and delta compression&quot;.
+</body>
+</html>
