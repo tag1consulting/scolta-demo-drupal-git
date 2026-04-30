@@ -11,10 +11,10 @@ ai_languages:
   - es
   - fr
   - de
-  - ja
+  - it
 max_follow_ups: 3
 site_name: GitMastery
-site_description: 'Multilingual Git documentation reference with 1,425 pages in English, Spanish, French, German, and Japanese. Covers commands, workflows, configuration, and internals. Search in any language — results and AI summaries return in the language you search in, even when the source was written in a different language.'
+site_description: 'GitMastery, 1,425 pages of Git documentation in English, Spanish, French, German, and Italian; search in your native language and get results and AI summaries back in that language.'
 scoring:
   title_match_boost: 2.0
   title_all_terms_multiplier: 1.5
