@@ -18,6 +18,7 @@ hooks:
         if [ -f /var/www/html/db/dump.sql.gz ]; then
           echo "Importing database..."
           zcat /var/www/html/db/dump.sql.gz | mysql -u root -proot db
+          drush config:import --partial --source=../config/sync -y
           drush cache:rebuild
           echo "Database imported and caches cleared."
           echo "Building Scolta/Pagefind search index..."
