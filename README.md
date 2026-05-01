@@ -152,6 +152,38 @@ gitmastery/
 
 ## Development Notes
 
+### Search Quality Tuning
+
+Scoring is configured in `config/sync/scolta.settings.yml` under the `scoring:` key. Current tuning rationale:
+
+| Parameter | Value | Why |
+|-----------|-------|-----|
+| `title_match_boost` | 3.0 | Man pages have the exact command name in their title (e.g., `git-log`). At 2.0, tutorials with higher keyword density in body text outranked them. 3.0 surfaces the man page to position #1–2 for exact command queries. |
+| `title_all_terms_multiplier` | 1.5 | Additional bonus when all query terms appear in the title. |
+| `content_match_boost` | 0.5 | Body-text matches deliberately weighted below title matches so keyword-dense tutorials don't swamp reference pages. |
+| `expand_primary_weight` | 0.8 | Keeps original query terms dominant relative to AI-expanded synonyms. At 0.6, expansion diluted exact command matches (e.g., "git-grep"); 0.8 keeps the man page on top while still benefiting from expansion for natural-language queries. |
+
+The `site_description` field also affects search quality: it is included in the AI expansion prompt so the model knows what kind of content the site contains. Adding canonical command names (e.g., `git-log`, `git-blame`) helps the AI map natural-language queries to the correct technical terms, especially for cross-language queries.
+
+To test ranking after a config change:
+
+```bash
+# Import the new config, rebuild the index, then try:
+ddev drush config:import --yes
+ddev drush scolta:build
+```
+
+Expected results for exact command queries (after tuning):
+
+| Query | Expected #1 |
+|-------|-------------|
+| `git log` | git-log man page |
+| `git grep` | git-grep man page |
+| `git rebase` | git-rebase man page |
+| `git stash` | git-stash man page |
+
+---
+
 ### Rebuilding the search index
 
 The index is rebuilt automatically on `ddev start`. To rebuild manually:
