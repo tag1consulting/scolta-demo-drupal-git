@@ -46,3 +46,4 @@ Thumbs.db
 !/import/
 /.editorconfig
 /.gitattributes
+web/sites/default/private/
