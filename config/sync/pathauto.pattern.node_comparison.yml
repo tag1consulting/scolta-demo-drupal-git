@@ -7,7 +7,7 @@ dependencies:
 id: node_comparison
 label: Comparison
 type: 'canonical_entities:node'
-pattern: '/[node:langcode]/comparisons/[node:title]'
+pattern: '/comparisons/[node:title]'
 selection_criteria:
   ad97b4ec-7d5a-4b07-8277-d2b02b4d857e:
     id: 'entity_bundle:node'

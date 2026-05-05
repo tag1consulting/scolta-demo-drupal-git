@@ -14,16 +14,16 @@ ai_languages:
   - it
 max_follow_ups: 3
 site_name: GitMastery
-site_description: 'GitMastery, 1,425 pages of Git documentation in English, Spanish, French, German, and Italian; search in your native language and get results and AI summaries back in that language.'
+site_description: 'GitMastery, 1,425 pages of Git documentation including man pages for all git commands (git-log, git-blame, git-grep, git-rebase, git-stash, etc.) in English, Spanish, French, German, and Italian; search in your native language and get results and AI summaries back in that language.'
 scoring:
-  title_match_boost: 2.0
+  title_match_boost: 3.0
   title_all_terms_multiplier: 1.5
   content_match_boost: 0.5
   recency_boost_max: 0.1
   recency_half_life_days: 3650
   recency_penalty_after_days: 36500
   recency_max_penalty: 0.05
-  expand_primary_weight: 0.6
+  expand_primary_weight: 0.8
   language: en
   custom_stop_words: {  }
   recency_strategy: exponential
