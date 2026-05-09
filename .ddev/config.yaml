@@ -19,6 +19,7 @@ hooks:
           zcat /var/www/html/db/dump.sql.gz | mysql -u root -proot db
           drush config:import --partial --source=../config/sync -y
           drush cache:rebuild
+          drush php:script /var/www/html/import/setup-about-page.php
           echo "Database imported and caches cleared."
           echo "Regenerating URL aliases for all content and languages..."
           drush pathauto:aliases-generate all
