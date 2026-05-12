@@ -50,3 +50,7 @@ Thumbs.db
 /.editorconfig
 /.gitattributes
 web/sites/default/private/
+
+# Claude Code artifacts
+.claude/
+todo.txt
