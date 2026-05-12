@@ -13,6 +13,7 @@ ai_languages:
   - fr
   - de
   - it
+auto_language_filter: true
 max_follow_ups: 3
 site_name: GitMastery
 site_description: 'GitMastery, 1,425 pages of Git documentation including man pages for all git commands (git-log, git-blame, git-grep, git-rebase, git-stash, etc.) in English, Spanish, French, German, and Italian; search in your native language and get results and AI summaries back in that language.'
