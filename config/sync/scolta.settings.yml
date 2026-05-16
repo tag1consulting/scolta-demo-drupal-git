@@ -51,3 +51,7 @@ pagefind:
   auto_rebuild: true
   view_mode: search_index
 auto_language_filter: '1'
+sortable_fields:
+  - date
+sortable_field_descriptions:
+  date: 'Publication or last-updated date of the document'
