@@ -1,0 +1,50 @@
+<?php
+
+use Drupal\Core\Entity\FieldableEntityInterface;
+use Tag1\Scolta\Export\ContentItem;
+
+/**
+ * Implements hook_scolta_content_item_alter().
+ */
+function gitmastery_scolta_scolta_content_item_alter(ContentItem &$item, FieldableEntityInterface $entity): void {
+  $filters = $item->filters;
+  $sortable = $item->sortable;
+
+  // Section taxonomy (single-value entity reference)
+  if ($entity->hasField('field_section') && !$entity->get('field_section')->isEmpty()) {
+    $ref = $entity->get('field_section')->entity;
+    if ($ref) {
+      $filters['section'] = $ref->label();
+    }
+  }
+
+  // Difficulty taxonomy (single-value entity reference)
+  if ($entity->hasField('field_difficulty') && !$entity->get('field_difficulty')->isEmpty()) {
+    $ref = $entity->get('field_difficulty')->entity;
+    if ($ref) {
+      $filters['difficulty'] = $ref->label();
+    }
+  }
+
+  // Topic/Category taxonomy - tips use field_category referencing 'topic' vocabulary
+  if ($entity->hasField('field_category') && !$entity->get('field_category')->isEmpty()) {
+    $ref = $entity->get('field_category')->entity;
+    if ($ref) {
+      $filters['topic'] = $ref->label();
+    }
+  }
+
+  // Git version (plain string field, only on documentation_page)
+  if ($entity->hasField('field_git_version') && !$entity->get('field_git_version')->isEmpty()) {
+    $filters['git_version'] = $entity->get('field_git_version')->value;
+  }
+
+  // Weight as sortable (numeric, only on documentation_page)
+  if ($entity->hasField('field_weight') && !$entity->get('field_weight')->isEmpty()) {
+    $sortable['weight'] = (int) $entity->get('field_weight')->value;
+  }
+
+  if ($filters !== $item->filters || $sortable !== $item->sortable) {
+    $item = $item->cloneWith(['filters' => $filters, 'sortable' => $sortable]);
+  }
+}
