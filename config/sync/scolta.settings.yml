@@ -17,9 +17,21 @@ max_follow_ups: 3
 site_name: GitMastery
 site_description: 'GitMastery, 1,425 pages of Git documentation including man pages for all git commands (git-log, git-blame, git-grep, git-rebase, git-stash, etc.) in English, Spanish, French, German, and Italian; search in your native language and get results and AI summaries back in that language.'
 sortable_fields:
+  - weight
   - date
 sortable_field_descriptions:
+  weight: 'Importance weight of the documentation page (higher = more fundamental)'
   date: 'Publication or last-updated date of the document'
+filter_fields:
+  - section
+  - difficulty
+  - topic
+  - git_version
+filter_field_descriptions:
+  section: "Documentation section. Map the user's query to one of these values: Getting Started (installation, first repo, basic workflow), Core Concepts (branching model, DAG, objects, refs, index, working tree, HEAD), Commands Reference (git-add, git-commit, git-push, git-pull, git-merge, git-rebase, git-log, git-diff, git-stash, git-checkout, git-branch, git-remote, git-fetch, git-reset, git-revert, git-tag, git-cherry-pick, git-bisect, git-blame, git-grep), Advanced (internals, plumbing, custom scripts, recovery, subtree), Performance (large repos, shallow clone, sparse checkout, partial clone), Tips (quick tips, shortcuts, aliases), Comparisons (tool comparisons, workflow comparisons), Tutorials (step-by-step walkthroughs, how-to guides)"
+  difficulty: 'Difficulty level. Values: Beginner (basic operations, first steps), Intermediate (branching, merging, rebasing, workflows), Advanced (internals, plumbing, custom scripts, recovery), Expert (contributing to git, low-level implementation)'
+  topic: 'Subject topic area. Values: Branching (branch management, strategies), Merging (merge conflicts, strategies), Remotes (push, pull, fetch, upstream), History (log, blame, bisect, reflog), Undoing (reset, revert, checkout, restore), Configuration (gitconfig, aliases, hooks setup), Performance (large repos, optimization), Hooks (pre-commit, post-commit, server hooks), Large Repos (monorepos, LFS, sparse checkout), Migration (from SVN, Mercurial, other VCS)'
+  git_version: 'Git version where this feature was introduced (e.g. 2.30+, 2.37+). Use when the user asks about a specific version.'
 scoring:
   title_match_boost: 3.0
   title_all_terms_multiplier: 1.5
