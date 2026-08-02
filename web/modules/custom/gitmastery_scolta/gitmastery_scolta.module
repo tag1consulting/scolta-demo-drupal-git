@@ -1,7 +1,29 @@
 <?php
 
+use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Tag1\Scolta\Export\ContentItem;
+
+/**
+ * How many badges a search result card paints.
+ *
+ * Three is what fits on one row under a title without wrapping, at every
+ * width the search block is used at.
+ */
+const GITMASTERY_SCOLTA_CARD_BADGE_LIMIT = 3;
+
+/**
+ * Implements hook_block_view_alter().
+ *
+ * Attaches the theme's result cards to the Scolta search block, so the
+ * renderer and its stylesheet load on exactly the pages the search UI is on
+ * and nowhere else — no route list to keep in sync with block placement.
+ */
+function gitmastery_scolta_block_view_alter(array &$build, BlockPluginInterface $block): void {
+  if ($block->getPluginId() === 'scolta_search') {
+    $build['#attached']['library'][] = 'gitmastery_theme/scolta-rich-results';
+  }
+}
 
 /**
  * Implements hook_scolta_content_item_alter().
@@ -9,6 +31,7 @@ use Tag1\Scolta\Export\ContentItem;
 function gitmastery_scolta_scolta_content_item_alter(ContentItem &$item, FieldableEntityInterface $entity): void {
   $filters = $item->filters;
   $sortable = $item->sortable;
+  $metadata = $item->metadata;
 
   // Section taxonomy (single-value entity reference)
   if ($entity->hasField('field_section') && !$entity->get('field_section')->isEmpty()) {
@@ -44,7 +67,67 @@ function gitmastery_scolta_scolta_content_item_alter(ContentItem &$item, Fieldab
     $sortable['weight'] = (int) $entity->get('field_weight')->value;
   }
 
-  if ($filters !== $item->filters || $sortable !== $item->sortable) {
-    $item = $item->cloneWith(['filters' => $filters, 'sortable' => $sortable]);
+  // Display-only copies of the facet values the card badges, in the order it
+  // paints them: which part of the manual this is, how hard it is, what it is
+  // about, and which Git it needs. Read back from the resolved filters rather
+  // than from the entity, so a badge's text is character-for-character the
+  // facet value it corresponds to — click that facet and this result is in
+  // the set. Only the first three that exist are kept; no page carries all
+  // four (git_version is documentation_page only, topic is tips only).
+  //
+  // There is no image key here and no thumbnail on the card. This corpus is
+  // 287 pages of Git documentation and carries no per-item picture at all:
+  // no populated image field, no managed files, not one <img> in a body. A
+  // stock illustration on a page about git-bisect would be decoration
+  // pretending to be information, and a card that leads with its type and
+  // difficulty is the more useful object anyway.
+  //
+  // Metadata costs only the bytes of its own keys in each fragment, unlike
+  // sortable, which writes a corpus-wide pf_meta entry. The keys "title" and
+  // "date" are deliberately avoided: they lose to the built-in values on a
+  // collision.
+  //
+  // JSON rather than a delimited string: a taxonomy label is free text, so
+  // there is no separator a future label provably cannot contain.
+  //
+  // Deduplicated, because the section and difficulty vocabularies overlap:
+  // both contain "Advanced", so a deep-dive page in the Advanced section at
+  // Advanced difficulty badged the same word twice, side by side. Repeating a
+  // word tells a reader nothing and costs a slot the git_version badge could
+  // have had.
+  $badges = [];
+  $seen = [];
+  foreach (['section', 'difficulty', 'topic', 'git_version'] as $key) {
+    $value = $filters[$key] ?? NULL;
+    if (!is_string($value) || $value === '' || count($badges) >= GITMASTERY_SCOLTA_CARD_BADGE_LIMIT) {
+      continue;
+    }
+    $fold = mb_strtolower($value);
+    if (isset($seen[$fold])) {
+      continue;
+    }
+    $seen[$fold] = TRUE;
+    $badges[] = $value;
+  }
+  if (!empty($badges)) {
+    $encoded = json_encode($badges);
+    if (is_string($encoded)) {
+      $metadata['badges'] = $encoded;
+    }
+  }
+
+  // The one badge a suggestion row has space for. Section rather than
+  // difficulty because in a dropdown the useful question is what kind of page
+  // this is — a tutorial, a command reference, a tip — not how hard it is.
+  if (isset($filters['section']) && is_string($filters['section'])) {
+    $metadata['section'] = $filters['section'];
+  }
+
+  if ($filters !== $item->filters || $sortable !== $item->sortable || $metadata !== $item->metadata) {
+    $item = $item->cloneWith([
+      'filters' => $filters,
+      'sortable' => $sortable,
+      'metadata' => $metadata,
+    ]);
   }
 }
