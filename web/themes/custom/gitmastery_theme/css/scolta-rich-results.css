@@ -1,0 +1,257 @@
+/**
+ * @file
+ * GitMastery styling for Scolta's result cards and search-as-you-type dropdown.
+ *
+ * Loaded after the module's scolta.css, which is never edited. Two techniques
+ * only: override the documented custom properties, and style the theme's own
+ * gitmastery-* classes on the markup its renderers emit. No selector here is
+ * more specific than one class.
+ *
+ * The card keeps Scolta's scolta-result-card, scolta-result-title and
+ * scolta-result-excerpt classes, so anything the base theme gives a result
+ * still applies and this file adds only what the badge row needs.
+ */
+
+/* Retheme Scolta's neutral palette to the Git orange the rest of the site is
+   built on. scolta.css declares these on :root; this file loads after it, so a
+   same-specificity redeclaration is all it takes. */
+:root {
+  --scolta-primary: var(--color-accent);
+  --scolta-primary-hover: var(--color-accent-dark);
+  --scolta-accent: var(--color-accent);
+  --scolta-bg: var(--color-bg-subtle);
+  --scolta-card-bg: var(--color-bg);
+  --scolta-text: var(--color-text);
+  --scolta-text-muted: var(--color-text-muted);
+  --scolta-border: var(--color-border);
+  --scolta-highlight: var(--color-accent-muted);
+  --scolta-badge-bg: var(--color-accent-muted);
+
+  /* Search-as-you-type. The seven documented knobs, nothing more. */
+  --scolta-sayt-bg: var(--color-bg);
+  --scolta-sayt-border: var(--color-border);
+  --scolta-sayt-shadow: 0 8px 24px rgba(17, 24, 39, 0.14);
+  --scolta-sayt-radius: 8px;
+  --scolta-sayt-max-height: 24rem;
+  --scolta-sayt-active-bg: var(--color-accent-muted);
+  --scolta-sayt-z-index: 60;
+}
+
+/* --------------------------------------------------------------------------
+ * Result card
+ *
+ * Text-forward on purpose: this corpus has no per-item image, so the card's
+ * job is to answer "what kind of page is this, and is it at my level?" before
+ * the click, not to carry a picture.
+ * ----------------------------------------------------------------------- */
+
+.gitmastery-result {
+  border-left: 3px solid transparent;
+  transition: border-color 0.15s ease;
+}
+
+.gitmastery-result:hover {
+  border-left-color: var(--color-accent);
+}
+
+.gitmastery-result__title {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+/* scolta.css highlights an excerpt's <mark> and leaves a title's to the
+   browser default, so a hit was pale orange in the body and vivid yellow in
+   the heading above it. Same treatment in both places, at one class deep. */
+.gitmastery-result__title mark {
+  background: var(--color-accent-muted);
+  color: inherit;
+  padding: 0.05em 0.15em;
+  border-radius: 2px;
+}
+
+.gitmastery-result__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.4rem 0 0.5rem;
+}
+
+.gitmastery-result__badge {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.16rem 0.5rem;
+  border: 1px solid rgba(var(--color-accent-rgb), 0.3);
+  border-radius: 3px;
+  background: var(--color-accent-muted);
+  color: var(--color-accent-dark);
+  white-space: nowrap;
+}
+
+/* A version is a different kind of fact from a category, and the theme already
+   owns a face that says so. Nothing but the type changes, so the badge row
+   still reads as one row. */
+.gitmastery-result__badge--version {
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+  text-transform: none;
+  border-color: var(--color-border);
+  background: var(--color-bg-subtle);
+  color: var(--color-text-muted);
+}
+
+.gitmastery-result__date {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.gitmastery-result__excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-clamp: 3;
+  overflow: hidden;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+ * Search-as-you-type dropdown
+ *
+ * Layout and rhythm only. The dropdown stays absolutely positioned inside
+ * .scolta-search-input-wrap, so opening and updating it shifts nothing.
+ * ----------------------------------------------------------------------- */
+
+.scolta-sayt {
+  font-family: var(--font-sans);
+  padding: 0.25rem 0;
+}
+
+.scolta-sayt-option {
+  padding: 0.55rem 0.9rem;
+  border-bottom: none;
+  border-left: 3px solid transparent;
+  transition: background-color 0.12s ease, border-color 0.12s ease;
+}
+
+.scolta-sayt-option:hover {
+  background: var(--color-bg-subtle);
+}
+
+.scolta-sayt-option-active {
+  border-left-color: var(--color-accent);
+}
+
+.scolta-sayt-kind {
+  color: var(--color-accent);
+  font-size: 0.95rem;
+}
+
+.scolta-sayt-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* A recent search is history, not a page: lighter and italic, so the two kinds
+   of row are told apart without reading the glyph. */
+.scolta-sayt-option-recent .scolta-sayt-kind {
+  color: var(--color-text-muted);
+}
+
+.scolta-sayt-option-recent .scolta-sayt-title {
+  font-weight: 400;
+  font-style: italic;
+}
+
+.scolta-sayt-excerpt {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: 0.1rem;
+}
+
+/* --------------------------------------------------------------------------
+ * Suggestion row with a section tag
+ *
+ * Inner markup emitted by the suggestion renderer in
+ * js/scolta-rich-results.js for title suggestions. The option element around
+ * it stays the bundle's, so the rules below never reach past the row's inside.
+ *
+ * Title and excerpt carry the scolta-* class as well as the gitmastery-* one,
+ * so they inherit the typography set above and these rules add only layout.
+ * Same specificity, resolved by source order — this block is last.
+ * ----------------------------------------------------------------------- */
+
+.gitmastery-sayt {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+/* Fixed width, so every row's title starts on the same line whether or not
+   the page has a section, and a longer section name cannot push one row's
+   text out of column with its neighbours.
+ *
+ * Sentence case here, where the card's badges are uppercase with tracking.
+ * The widest value in this vocabulary is "Commands Reference", which is also
+ * the most common section in the corpus, and uppercase with tracking ran it
+ * past the gutter: it read "COMMANDS REF…" on a third of the rows. Sentence
+ * case at 9.5rem fits every value in the vocabulary whole, verified against
+ * the rendered rows rather than estimated. The ellipsis stays as the guard
+ * for a section added later. */
+.gitmastery-sayt__section {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 9.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0.16rem 0.4rem;
+  border: 1px solid rgba(var(--color-accent-rgb), 0.3);
+  border-radius: 3px;
+  background: var(--color-accent-muted);
+  color: var(--color-accent-dark);
+}
+
+/* Sized, not drawn: a suggestion with no section keeps the column so the list
+   still reads as one list, without painting an empty box. */
+.gitmastery-sayt__section--empty {
+  border-color: transparent;
+  background: none;
+}
+
+.gitmastery-sayt__text {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+/* One line each, ellipsised. A suggestion is a pointer, not a summary, and a
+   row that wrapped would resize the dropdown on every keystroke. */
+.gitmastery-sayt__title {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Overrides the glyph gutter scolta.css gives an excerpt: in this row the
+   section tag is the gutter, and the text column is already indented. */
+.gitmastery-sayt__excerpt {
+  display: block;
+  margin-top: 0.05rem;
+  margin-left: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
